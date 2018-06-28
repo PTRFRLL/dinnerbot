@@ -1,5 +1,7 @@
 # DinnerBot
 
+[![Build Status](https://travis-ci.org/PTRFRLL/dinnerbot.svg?branch=master)](https://travis-ci.org/PTRFRLL/dinnerbot)
+
 ![Dinner Bot](https://peterfiorella.com/img/DinnerBot/main.png)
 
 Discord bot that listens on a specfic channel for PUBG win screenshots and responds with emoji and WINNER WINNER CHICKEN DINNER if image is within a certain similarity to a base image (this avoids false positives when someone uploads any image). Useful for `chicken-dinner-receipt` channels where only winning screenshots are posted. Keeps track of win count for each tagged users. 
