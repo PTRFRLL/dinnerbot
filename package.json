@@ -1,0 +1,24 @@
+{
+  "name": "dinner-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "PTRFRLL",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "discord.js": "^11.1.0",
+    "dotenv": "^4.0.0",
+    "lodash": "^4.17.10",
+    "mime-types": "^2.1.18",
+    "moment": "^2.18.1",
+    "pixelmatch": "^4.0.2",
+    "sequelize": "^4.38.0",
+    "sharp": "^0.20.4",
+    "sqlite3": "^4.0.0"
+  }
+}
