@@ -108,7 +108,7 @@ function sendDiscordMessage(message, embed, isWinner){
 function getWins(message, users){
 	let dbCalls = [];
 	//loop through mentioned users and increment wins OR create them in DB to start tracking
-	for(var i = 0; i < users.length; i++){
+	for(let i = 0; i < users.length; i++){
 		let messageUser = users[i];
 		//call db increment, get wins for each user
 		dbCalls.push(db.user.findOne({
@@ -139,7 +139,7 @@ function getWins(message, users){
 function logUserWins(message, users){
 	let dbCalls = [];
 	//loop through mentioned users and increment wins OR create them in DB to start tracking
-	for(var i = 0; i < users.length; i++){
+	for(let i = 0; i < users.length; i++){
 		let messageUser = users[i];
 		//call db increment, get wins for each user
 		dbCalls.push(db.user.findOne({
