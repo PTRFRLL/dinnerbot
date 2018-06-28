@@ -8,8 +8,8 @@ var logger = require('./lib/log.js');
 
 
 const config = {
-	shouldCheckImageComparison: true,
-	debugMode: false //won't increment dpb stats if set to true
+	shouldCheckImageComparison: true, //compare uploaded screenshot with base image to determine similarity score
+	debugMode: false //won't increment db stats if set to true
 };
 
 //when we connect with Discord, sync with DB
@@ -59,17 +59,6 @@ client.on('message', message => {
 	    	let users = getMessageUsers(message);
     		getWins(message, users);
 	    }
-  	}else if(message.channel.id === process.env.TESTCHANNEL){
-  		//testing channel
-  		logger.log(`Message to test channel found...`);
-  		var attachment = message.attachments.first();
-  		if(attachment){
-  			score.getScoreAsync(attachment.url).then((score) => {
-  				message.channel.send(`Compare score: ${score}`);
-  			}).catch((e) => {
-  				logger.log(e);
-  			});
-  		}
   	}
 });
 

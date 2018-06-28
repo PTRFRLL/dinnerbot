@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jshint app.js",
     "start": "node app.js"
   },
   "author": "PTRFRLL",
@@ -20,5 +20,8 @@
     "sequelize": "^4.38.0",
     "sharp": "^0.20.4",
     "sqlite3": "^4.0.0"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.5"
   }
 }
