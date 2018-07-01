@@ -1,8 +1,9 @@
 # DinnerBot
 
 [![Build Status](https://travis-ci.org/PTRFRLL/dinnerbot.svg?branch=master)](https://travis-ci.org/PTRFRLL/dinnerbot)
+[![Discord Status](https://discordapp.com/api/guilds/144143242928193537/embed.png)](https://discord.gg)
 
-![Dinner Bot](https://peterfiorella.com/img/DinnerBot/main.png)
+![Dinner Bot](examples/main.png)
 
 Discord bot that listens on a specfic channel for PUBG win screenshots and responds with emoji and WINNER WINNER CHICKEN DINNER if image is within a certain similarity to a base image (this avoids false positives when someone uploads any image). Useful for `chicken-dinner-receipt` channels where only winning screenshots are posted. Keeps track of win count for each tagged users. 
 
@@ -10,7 +11,7 @@ Use `!wins` command to see current win count, you can tag users to show their co
 
 Ex. `!wins @Dirka @tgruenen24` produces: 
 
-![Win Count](https://peterfiorella.com/img/DinnerBot/wins.png)
+![Win Count](examples/wins.png)
 
 ## Getting Started
 
