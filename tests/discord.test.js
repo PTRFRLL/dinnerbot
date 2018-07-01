@@ -31,7 +31,7 @@ describe('Download.js', () => {
 
 describe('Utils.js', () => {
 	it('should delete a file', (done) => {
-		let path = __dirname + '/../data/img/downloads/temp.png';
+		let path = __dirname + '/../data/img/temp.png';
 		removeFile(path);
 		fs.stat(path, (err, stat) => {
 			expect(err.code).toBe('ENOENT');
