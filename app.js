@@ -9,10 +9,12 @@ const bot = require('./lib/discord');
 
 //when we connect with Discord, sync with DB
 client.on('ready', () => {
+	let serverID = client.guilds.keys().next().value;
 	logger.debug('Running in debug mode...');
-	logger.log('Connected and listening...');
+	logger.log(`Connected to ${client.guilds.get(serverID).name}`);
+	logger.log(`Listening on #${client.channels.get(process.env.CHANNEL).name}`);
 	db.sequelize.sync().then(function() {
-		logger.log('DB synced...');
+		logger.log('DB synced');
 	});
 });
 
