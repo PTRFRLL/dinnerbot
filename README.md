@@ -1,20 +1,21 @@
 # DinnerBot
 
+## PUBG Win Tracker
+
 [![Build Status](https://travis-ci.org/PTRFRLL/dinnerbot.svg?branch=master)](https://travis-ci.org/PTRFRLL/dinnerbot)
 [![Discord Status](https://discordapp.com/api/guilds/144143242928193537/embed.png)](https://discord.gg)
 
 ![Dinner Bot](examples/main.png)
 
-Discord bot that listens on a specfic channel for PUBG win screenshots and responds with emoji and WINNER WINNER CHICKEN DINNER if image is within a certain similarity to a base image (this avoids false positives when someone uploads any image). Useful for `chicken-dinner-receipt` channels where only winning screenshots are posted. Keeps track of win count for each tagged users. 
+DinnerBot is a Discord bot that listens on a specfic channel for PUBG win screenshots and responds with  **WINNER WINNER CHICKEN DINNER** and some emoji 🐔 🏆 🍽 if the image is a winning screenshot. Useful for `chicken-dinner-receipt` channels where only winning screenshots are posted. Keeps track of win count for each tagged users.
 
-Use `!wins` command to see current win count, you can tag users to show their count as well.
+### Image Comparison
+Winning screenshots are determined by comparing the uploaded screenshot with a known win screenshot ([base.png](./data/img/base.png)). If the uploaded screenshot is within a certain similarity score to the base image, a win is awared.
 
-Ex. `!wins @Dirka @tgruenen24` produces: 
 
-![Win Count](examples/wins.png)
 
 ## Getting Started
-
+---
 Create a new dev app on Discord [here](https://discordapp.com/developers/applications/me). 
 
 Under the Bot section, click Add Bot and copy your bot's Token.
@@ -35,8 +36,18 @@ $ npm install
 $ npm start
 ```
 
-## Manual Wins  
+## Commands
+---
+### !wins
 
+Use `!wins` command to see current win count, you can tag users to show their count as well.
+
+Ex. `!wins @Dirka @tgruenen24` produces: 
+
+![Win Count](examples/wins.png)
+
+## Manual Wins  
+---
 If an image is uploaded that scores too high but it should be a win, the user marked as `AUTH_USER` in config.js can mention the bot and it will award the win anyway (this only works for the last non-win). Dinner-Bot will respond with a random phrase taken from the `good` array in config.js
 
 ![bot](examples/manual.png)
@@ -47,7 +58,7 @@ If anyone else mentions the bot, it will repond with a response from the `bad` a
 ![bot](examples/bad.png)
 
 ## Configuration
-
+---
 Edit the config.js to change these settings.
 
 ```js
@@ -60,7 +71,7 @@ BOT_RESPONSES_BAD: bad //array of 'bad' responses from bot, replied when non-AUT
 
 
 ## Built With
-
+---
 * [Discord.js](https://discord.js.org/#/) - Javascript library for Discord API
 * [Moment.js](https://momentjs.com/) - Javascript Date Library
 * [dotenv](https://github.com/motdotla/dotenv) - Loads environment variables from .env
