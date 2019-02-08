@@ -3,7 +3,6 @@ const fs = require('fs');
 const compare = require('../lib/compare.js');
 const download = require('../lib/download.js');
 const removeFile = require('../lib/utils.js');
-const discord = require('../lib/discord.js');
 const resize = require('../lib/resize');
 
 describe('Download/Resize', () => {
@@ -57,13 +56,10 @@ describe('Utils.js', () => {
 			done();
 		});
 	});
-	it('should delete previous tests files', (done) => {
-		let path = __dirname + '/../data/img/temp_converted.png';
+	after(function() {
+		let path_converted = __dirname + '/../data/img/temp_converted.png';
 		let path_og = __dirname + '/../data/img/temp.jpeg';
-		removeFile(path);
+		removeFile(path_converted);
 		removeFile(path_og);
-		expect(fs.existsSync(path)).toBe(false);
-		expect(fs.existsSync(path_og)).toBe(false);
-		done();
 	});
 });

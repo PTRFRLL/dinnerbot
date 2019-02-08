@@ -1,9 +1,6 @@
-require('dotenv').config();
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const _ = require('lodash');
 const db = require('./lib/db.js');
-const score = require('./lib/score.js');
 const logger = require('./lib/log.js');
 const bot = require('./lib/discord');
 const CONFIG = require('./config');
