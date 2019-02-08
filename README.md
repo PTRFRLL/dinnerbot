@@ -53,7 +53,7 @@ Edit the config.js to change these settings.
 ```js
 IMG_SCORE_THRESHOLD: 15000, //if the image score is below this number it's awared a win (15,000 is arbitrary based off my testing)
 LOGMODE: 'prod' //prod or debug
-AUTH_USER: 'PTRFRLL', //username that can award wins that scored too high
+AUTH_USER_IDS: ['12312312'], //array of Discord user ids that can award wins that scored too high
 BOT_RESPONSES_GOOD: good, //array of 'good' responses from bot, replied when AUTH_USER mentions bot
 BOT_RESPONSES_BAD: bad //array of 'bad' responses from bot, replied when non-AUTH_USER mentions bot
 ```
