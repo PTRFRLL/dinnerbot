@@ -15,21 +15,49 @@ Ex. `!wins @Dirka @tgruenen24` produces:
 
 ## Getting Started
 
-Create a new dev app on Discord [here](https://discordapp.com/developers/applications/me).
+Create a new dev app on Discord [here](https://discordapp.com/developers/applications/me). 
 
-Edit the .env.example file with the channel-id and client-app secret. 
+Under the Bot section, click Add Bot and copy your bot's Token.
 
-Add the bot to your server using this url (replace CLIENT_ID with your bots):
+Edit the config.js file with the channel-id and discord bot token. Be sure to 
 
+Add the bot to your server using [bot authorization flow](https://discordapp.com/developers/docs/topics/oauth2#bots):
+
+Example link (note CLIENT_ID != TOKEN):
 ```
-https://discordapp.com/oauth2/authorize?client_id=CLIENT_ID&scope=bot&permissions=0
+https://discordapp.com/api/oauth2/authorize?client_id=CLIENT_ID&scope=bot&permissions=75840
 ```
 
 Start the bot with:
 
 ```
-$ node app.js
+$ npm install
+$ npm start
 ```
+
+## Manual Wins  
+
+If an image is uploaded that scores too high but it should be a win, the user marked as `AUTH_USER` in config.js can mention the bot and it will award the win anyway (this only works for the last non-win). Dinner-Bot will respond with a random phrase taken from the `good` array in config.js
+
+![bot](examples/manual.png)
+
+
+If anyone else mentions the bot, it will repond with a response from the `bad` array:
+
+![bot](examples/bad.png)
+
+## Configuration
+
+Edit the config.js to change these settings.
+
+```js
+IMG_SCORE_THRESHOLD: 15000, //if the image score is below this number it's awared a win (15,000 is arbitrary based off my testing)
+LOGMODE: 'prod' //prod or debug
+AUTH_USER: 'PTRFRLL', //username that can award wins that scored too high
+BOT_RESPONSES_GOOD: good, //array of 'good' responses from bot, replied when AUTH_USER mentions bot
+BOT_RESPONSES_BAD: bad //array of 'bad' responses from bot, replied when non-AUTH_USER mentions bot
+```
+
 
 ## Built With
 

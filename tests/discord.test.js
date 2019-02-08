@@ -1,9 +1,22 @@
-//const logger = require('./lib/log.js');
 const expect = require('expect');
-const fs = require('fs'); 
+const fs = require('fs');
 const compare = require('../lib/compare.js');
 const download = require('../lib/download.js');
 const removeFile = require('../lib/utils.js');
+const discord = require('../lib/discord.js');
+const resize = require('../lib/resize');
+
+describe('Download/Resize', () => {
+	it('should download a file and resize it', (done) => {
+		download('https://cdn.discordapp.com/attachments/316374943782666241/463749503967559712/Nofly.jpg').then((path) => {
+			expect(fs.existsSync(path)).toBe(true);
+			resize(path).then(resized => {
+				expect(fs.existsSync(resized)).toBe(true);
+				done();
+			});
+		});
+	});
+});
 
 describe('Compare.js', () => {
 	it('should get compare score > 10,000', (done) => {
@@ -13,7 +26,13 @@ describe('Compare.js', () => {
 		});
 	});
 	it('should get compare score < 10,000', (done) => {
-		compare(__dirname+ '/../tests/unknown720.png').then((score) => {
+		compare(__dirname + '/../tests/unknown720.png').then((score) => {
+			expect(score).toBeLessThan(10000);
+			done();
+		});
+	});
+	it('should get winning compare score (< 10000)', (done) => {
+		compare(__dirname + '/../data/img/temp_converted.png').then((score) => {
 			expect(score).toBeLessThan(10000);
 			done();
 		});
@@ -37,5 +56,14 @@ describe('Utils.js', () => {
 			expect(err.code).toBe('ENOENT');
 			done();
 		});
+	});
+	it('should delete previous tests files', (done) => {
+		let path = __dirname + '/../data/img/temp_converted.png';
+		let path_og = __dirname + '/../data/img/temp.jpeg';
+		removeFile(path);
+		removeFile(path_og);
+		expect(fs.existsSync(path)).toBe(false);
+		expect(fs.existsSync(path_og)).toBe(false);
+		done();
 	});
 });
