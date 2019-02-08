@@ -14,6 +14,7 @@ client.on('ready', () => {
 	db.sequelize.sync().then(function() {
 		logger.log('DB synced');
 	});
+	client.user.setActivity(`for chicken dinners 🐔`, {type: 'WATCHING'});
 });
 
 //if we cannot connect to Discord, quit app
@@ -26,11 +27,13 @@ client.on('disconnect', () => {
 	logger.log(`Disconnecting from Discord...`);
 });
 
-//on message event
+client.on('reconnecting', () => {
+	logger.log(`Attempting to reconnect...`);
+});
+
 client.on('message', bot.onMessage);
 
 //login to Discord
 client.login(CONFIG.app.DISCORD_BOT_TOKEN);
-
 
 module.exports.client = client;
