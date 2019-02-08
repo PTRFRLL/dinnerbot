@@ -69,7 +69,7 @@ BOT_RESPONSES_BAD: bad //array of 'bad' responses from bot, replied when non-AUT
 
 
 ## Built With
----
+
 * [Discord.js](https://discord.js.org/#/) - Javascript library for Discord API
 * [Moment.js](https://momentjs.com/) - Javascript Date Library
 * [dotenv](https://github.com/motdotla/dotenv) - Loads environment variables from .env
