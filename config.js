@@ -10,7 +10,11 @@ const prod = {
 		DISCORD_CHANNEL: 'DISCORD CHANNEL ID',
 		IMG_SCORE_THRESHOLD: 15000,
 		LOGMODE: 'prod',
-		AUTH_USER_IDS: [''], //discord user ids
+		AUTH_USERS: {
+			//can provide role names, user ids or both
+			users: [''], //user ids
+			roles: [''] //name of role
+		},
 		BOT_RESPONSES_GOOD: good,
 		BOT_RESPONSES_BAD: bad
 	},

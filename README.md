@@ -18,7 +18,7 @@ Create a new dev app on Discord [here](https://discordapp.com/developers/applica
 
 Under the Bot section, click Add Bot and copy your bot's Token.
 
-Edit the config.js file with the channel-id and discord bot token. Be sure to 
+Edit the config.js file with your discord bot token and the channel-id of the channel you want it to listen on.
 
 Add the bot to your server using [bot authorization flow](https://discordapp.com/developers/docs/topics/oauth2#bots):
 
@@ -57,12 +57,16 @@ If anyone else mentions the bot, it will repond with a response from the `bad` a
 
 ## Configuration
 
-Edit the config.js to change these settings.
+Edit the [config.js](./config.js) to change these settings.
 
 ```js
 IMG_SCORE_THRESHOLD: 15000, //if the image score is below this number it's awared a win (15,000 is arbitrary based off my testing)
-LOGMODE: 'prod' //prod or debug
-AUTH_USER_IDS: ['12312312'], //array of Discord user ids that can award wins that scored too high
+LOGMODE: 'prod', //prod or debug
+AUTH_USERS: { 
+    //users/roles specified here can award wins that scored too high
+    users: [''], //array of user ids
+    roles: [''] //array of role names
+},
 BOT_RESPONSES_GOOD: good, //array of 'good' responses from bot, replied when AUTH_USER mentions bot
 BOT_RESPONSES_BAD: bad //array of 'bad' responses from bot, replied when non-AUTH_USER mentions bot
 ```
