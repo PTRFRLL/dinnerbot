@@ -33,6 +33,9 @@ client.on('reconnecting', () => {
 
 client.on('message', bot.onMessage);
 
+//when user changes status
+client.on('presenceUpdate', bot.presenceUpdate);
+
 //login to Discord
 client.login(CONFIG.app.DISCORD_BOT_TOKEN);
 
