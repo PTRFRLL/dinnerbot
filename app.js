@@ -36,6 +36,18 @@ client.on('message', bot.onMessage);
 //when user changes status
 client.on('presenceUpdate', bot.presenceUpdate);
 
+//basic error checking
+try{
+	if(CONFIG.app.DISCORD_BOT_TOKEN === 'DISCORD BOT TOKEN HERE' || CONFIG.app.DISCORD_BOT_TOKEN === ''){
+		throw Error('Discord bot token not provided in config.js');
+	}
+	if(!CONFIG.app.DISCORD_CHANNEL || CONFIG.app.DISCORD_CHANNEL === 'DISCORD CHANNEL ID' || CONFIG.app.DISCORD_CHANNEL === ''){
+		throw Error('Discord channel ID not provided in config.js');
+	}
+}catch(e){
+	logger.error(e.message);
+	process.exit(1);
+}
 //login to Discord
 client.login(CONFIG.app.DISCORD_BOT_TOKEN);
 
