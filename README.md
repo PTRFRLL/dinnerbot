@@ -1,7 +1,11 @@
 # DinnerBot - PUBG Win Tracker
 
 [![Build Status](https://travis-ci.org/PTRFRLL/dinnerbot.svg?branch=master)](https://travis-ci.org/PTRFRLL/dinnerbot)
+[![Dependency Status](https://david-dm.org/PTRFRLL/dinnerbot.svg)](https://david-dm.org)
+![GitHub last commit](https://img.shields.io/github/last-commit/PTRFRLL/dinnerbot.svg)
 [![Discord Status](https://discordapp.com/api/guilds/144143242928193537/embed.png)](https://discord.gg)
+
+
 
 ![Dinner Bot](examples/main.png)
 
