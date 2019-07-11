@@ -38,7 +38,7 @@ client.on('presenceUpdate', bot.presenceUpdate);
 
 //basic error checking
 try{
-	if(CONFIG.app.DISCORD_BOT_TOKEN === 'DISCORD BOT TOKEN HERE' || CONFIG.app.DISCORD_BOT_TOKEN === ''){
+	if(!CONFIG.app.DISCORD_BOT_TOKEN || CONFIG.app.DISCORD_BOT_TOKEN === 'DISCORD BOT TOKEN HERE' || CONFIG.app.DISCORD_BOT_TOKEN === ''){
 		throw Error('Discord bot token not provided in config.js');
 	}
 	if(!CONFIG.app.DISCORD_CHANNEL || CONFIG.app.DISCORD_CHANNEL === 'DISCORD CHANNEL ID' || CONFIG.app.DISCORD_CHANNEL === ''){
