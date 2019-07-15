@@ -1,5 +1,4 @@
-require('dotenv').config();
-const env = process.env.MODE;
+const env = process.env.NODE_ENV || 'prod';
 
 let good = [
 	'Whatever you say...', 
@@ -37,7 +36,7 @@ const prod = {
 	app: {
 		DISCORD_BOT_TOKEN: 'DISCORD BOT TOKEN HERE',
 		DISCORD_CHANNEL: 'DISCORD CHANNEL ID',
-		IMG_SCORE_THRESHOLD: 15000,
+		IMG_SCORE_THRESHOLD: 20000,
 		LOGMODE: 'prod',
 		AUTH_USERS: {
 			//can provide role names, user ids or both

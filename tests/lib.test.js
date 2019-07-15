@@ -1,10 +1,8 @@
 const expect = require('expect');
 const fs = require('fs');
 const compare = require('../lib/compare.js');
-const download = require('../lib/download.js');
-const removeFile = require('../lib/utils.js');
+const {resize, download, deleteFile, hashFile} = require('../lib/utils.js');
 const score = require('../lib/score.js');
-const resize = require('../lib/resize');
 const imageSize = require('image-size');
 
 describe('Download/Resize', () => {
@@ -21,6 +19,16 @@ describe('Download/Resize', () => {
 		});
 	});
 });
+
+describe('Hash', () => {
+	it('should create a hash', (done) => {
+		hashFile(__dirname + '/../tests/unknown720.png').then((hash) => {
+			expect(hash).toBeA('string');
+			expect(hash).toEqual('698d20f1bdf30be65718c3a909180a4bed261fc4');
+			done();
+		})
+	});
+})
 
 describe('Compare.js', () => {
 	it('should get compare score > 10,000', (done) => {
@@ -44,8 +52,8 @@ describe('Compare.js', () => {
 	after(function() {
 		let path_converted = __dirname + '/../data/img/temp_converted.png';
 		let path_og = __dirname + '/../data/img/temp.jpeg';
-		removeFile(path_converted);
-		removeFile(path_og);
+		deleteFile(path_converted);
+		deleteFile(path_og);
 	});
 });
 
@@ -73,7 +81,7 @@ describe('Score.js', () => {
 describe('Utils.js', () => {
 	it('should delete a file', (done) => {
 		let path = __dirname + '/../data/img/temp.png';
-		removeFile(path);
+		deleteFile(path);
 		fs.stat(path, (err, stat) => {
 			expect(err.code).toBe('ENOENT');
 			done();
