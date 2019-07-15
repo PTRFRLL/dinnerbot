@@ -64,7 +64,7 @@ If anyone else mentions the bot, it will repond with a response from the `bad` a
 Edit the [config.js](./config.js) to change these settings.
 
 ```js
-IMG_SCORE_THRESHOLD: 15000, //if the image score is below this number it's awared a win (15,000 is arbitrary based off my testing)
+IMG_SCORE_THRESHOLD: 20000, //if the image score is below this number it's awared a win (20,000 is arbitrary based off my testing)
 LOGMODE: 'prod', //prod or debug
 AUTH_USERS: { 
     //users/roles specified here can award wins that scored too high
