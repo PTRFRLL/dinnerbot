@@ -17,7 +17,7 @@
     "lodash": "^4.17.14",
     "mime-types": "^2.1.18",
     "moment": "^2.22.2",
-    "pixelmatch": "^4.0.2",
+    "pixelmatch": "^5.0.2",
     "sequelize": "^5.10.0",
     "sharp": "^0.22.1",
     "sqlite3": "^4.0.6"
