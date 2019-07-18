@@ -18,11 +18,11 @@ Winning screenshots are determined by comparing the uploaded screenshot with a k
 
 ## Getting Started
 
+### Create Bot in Discord Dev portal
+
 Create a new dev app on Discord [here](https://discordapp.com/developers/applications/me). 
 
 Under the Bot section, click Add Bot and copy your bot's Token.
-
-Edit the config.js file with your discord bot token and the channel-id of the channel you want it to listen on.
 
 Add the bot to your server using [bot authorization flow](https://discordapp.com/developers/docs/topics/oauth2#bots):
 
@@ -30,6 +30,11 @@ Example link (note CLIENT_ID != TOKEN):
 ```
 https://discordapp.com/api/oauth2/authorize?client_id=CLIENT_ID&scope=bot&permissions=75840
 ```
+
+
+### Run locally
+
+Edit the [config.js](./config.js) file with your discord bot token and the channel-id of the channel you want it to listen on.
 
 Start the bot with:
 
@@ -39,7 +44,8 @@ $ npm start
 ```
 
 
-## Docker
+### Docker
+DinnerBot can also be run via Docker with the following command(s). We map a directory to the host machine to persist the SQlite database.
 
 ```
 docker pull ptrfrll/dinnerbot:latest
@@ -93,7 +99,6 @@ BOT_RESPONSES_BAD: bad //array of 'bad' responses from bot, replied when non-AUT
 
 * [Discord.js](https://discord.js.org/#/) - Javascript library for Discord API
 * [Moment.js](https://momentjs.com/) - Javascript Date Library
-* [dotenv](https://github.com/motdotla/dotenv) - Loads environment variables from .env
 * [Pixelmatch](https://github.com/mapbox/pixelmatch) - pixel-level image comparison library
 * [Sequelize](http://docs.sequelizejs.com/) - ORM
 * [Sharp](https://github.com/lovell/sharp) - Image Processing
