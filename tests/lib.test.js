@@ -1,7 +1,7 @@
 const expect = require('expect');
 const fs = require('fs');
 const compare = require('../lib/compare.js');
-const {resize, download, deleteFile, hashFile} = require('../lib/utils.js');
+const {resize, download, deleteFile, hashFile, getImage} = require('../lib/utils.js');
 const score = require('../lib/score.js');
 const imageSize = require('image-size');
 
@@ -9,15 +9,23 @@ const imageSize = require('image-size');
 describe('Utils', () => {
 	describe('Download', () => {
 		it('should download a file', (done) => {
-			download('https://peterfiorella.com/img/DinnerBot/dinner.png').then((path) => {
+			download('https://peterfiorella.com/img/DinnerBot/dinner.png', 'test').then((path) => {
 				expect(fs.existsSync(path)).toBe(true);
+				done();
+			});
+		});
+		it('should NOT download a not allowed extension', (done) => {
+			download('https://peterfiorella.com').then((path) => {
+				throw new Error('File downloaded');
+			}).catch((e) => {
+				expect(e).toEqual('Invalid extension, skipping download...')
 				done();
 			});
 		});
 	});
 	describe('Resize', () => {
 		it('should resize an image to 720p', (done) => {
-			download('https://cdn.discordapp.com/attachments/316374943782666241/463749503967559712/Nofly.jpg').then((path) => {
+			download('https://peterfiorella.com/img/DinnerBot/dinner.png', 'testTwo').then((path) => {
 				expect(fs.existsSync(path)).toBe(true);
 				resize(path).then(resized => {
 					expect(fs.existsSync(resized)).toBe(true);
@@ -40,13 +48,12 @@ describe('Utils', () => {
 	});
 	describe('Delete', () => {
 		it('should delete a file', (done) => {
-			download('https://peterfiorella.com/img/DinnerBot/dinner.png').then((path) => {
-				expect(fs.existsSync(path)).toBe(true);
-				deleteFile(path);
-				fs.stat(path, (err, stat) => {
-					expect(err.code).toBe('ENOENT');
-					done();
-				});
+			let filePath = __dirname + '/../data/img/testTwo.png';
+			expect(fs.existsSync(filePath)).toBe(true);
+			deleteFile(filePath);
+			fs.stat(filePath, (err, stat) => {
+				expect(err.code).toBe('ENOENT');
+				done();
 			});
 		});
 	});
@@ -66,26 +73,27 @@ describe('Compare.js', () => {
 			done();
 		});
 	});
-	it('should get winning compare score (< 10000)', (done) => {
-		compare(__dirname + '/../data/img/temp_converted.png').then((score) => {
-			expect(score).toBeLessThan(10000);
-			done();
+});
+
+describe('Complete Logic', () => {
+	it('should download image, resize, compare and delete from url', (done) => {
+		getImage('https://peterfiorella.com/img/DinnerBot/Nofly.jpg').then((imageProps) => {
+			expect(imageProps).toBeAn('object');
+			expect(imageProps.hash).toEqual('826e9fd4a9fbc44ccb444ccd2bfe2d449df2c76d');
+			compare(imageProps.resizedPath).then((score) => {
+				expect(score).toBeLessThan(10000);
+				deleteFile(imageProps.resizedPath).then(() => {
+					fs.stat(imageProps.resizedPath, (err, stat) => {
+						expect(err.code).toBe('ENOENT');
+						done();
+					});
+				});
+			})
 		});
-	});
-	after(function() {
-		let path_converted = __dirname + '/../data/img/temp_converted.png';
-		let path_og = __dirname + '/../data/img/temp.jpeg';
-		deleteFile(path_converted);
-		deleteFile(path_og);
 	});
 });
 
-describe('Score.js', () => {
-	it('should return a valid score (~6500) for win attachment url', (done) => {
-		score.getScore('https://cdn.discordapp.com/attachments/316374943782666241/463749503967559712/Nofly.jpg').then((score) => {
-			expect(score).toBeGreaterThan(6000);
-			expect(score).toBeLessThan(7000);
-			done();
-		});
-	});
-});
+after(() => {
+	deleteFile(__dirname + '/../data/img/test.png');
+	deleteFile(__dirname + '/../data/img/testTwo_converted.png');
+})

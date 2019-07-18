@@ -34,9 +34,10 @@ let spectator = [
 
 const prod = {
 	app: {
-		DISCORD_BOT_TOKEN: 'DISCORD BOT TOKEN HERE',
-		DISCORD_CHANNEL: 'DISCORD CHANNEL ID',
+		DISCORD_BOT_TOKEN: 'DISCORD_BOT_TOKEN',
+		DISCORD_CHANNEL: 'DISCORD_CHANNEL_ID',
 		IMG_SCORE_THRESHOLD: 20000,
+		ALLOWED_EXT: ['png', 'jpeg', 'jpg'],
 		LOGMODE: 'prod',
 		AUTH_USERS: {
 			//can provide role names, user ids or both
@@ -49,12 +50,36 @@ const prod = {
 		BOT_SPECTATOR_RESPONSES: spectator
 	},
 	db: {
-		DATABASE_PATH:  __dirname + '/data/db.sqlite'
+		DATABASE_PATH:  __dirname + '/data/dinnerbot.sqlite'
 	}
 };
 
+const docker = {
+	app: {
+		DISCORD_BOT_TOKEN: process.env.BOT_TOKEN,
+		DISCORD_CHANNEL: process.env.CHANNEL_ID,
+		IMG_SCORE_THRESHOLD: 20000,
+		ALLOWED_EXT: ['png', 'jpeg', 'jpg'],
+		LOGMODE: 'prod',
+		AUTH_USERS: {
+			//can provide role names, user ids or both
+			users: [''], //user ids
+			roles: [''] //name of role
+		},
+		BOT_RESPONSES_GOOD: good,
+		BOT_RESPONSES_BAD: bad,
+		BOT_PRESENCE_RESPONSES: winner,
+		BOT_SPECTATOR_RESPONSES: spectator
+	},
+	db: {
+		DATABASE_PATH:  '/data/dinnerbot.sqlite'
+	}
+};
+
+
 const config = {
-	prod
+	prod,
+	docker
 };
 
 module.exports = config[env];
