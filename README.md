@@ -14,7 +14,10 @@ DinnerBot is a Discord bot that listens on a specfic channel for PUBG win screen
 ### Image Comparison
 Winning screenshots are determined by comparing the uploaded screenshot with a known win screenshot ([base.png](./data/img/base.png)). If the uploaded screenshot is within a certain similarity score to the base image, a win is awared.
 
+### Image Hash
+When a winning screenshot is added, dinnerbot will compute the SHA1 hash of the uploaded image and store it in the database. This is used to avoid someone uploading duplicate images. 
 
+![Hash](examples/dupe.png)
 
 ## Getting Started
 
@@ -49,12 +52,12 @@ DinnerBot can also be run via Docker with the following command(s). We map a dir
 
 ```
 docker pull ptrfrll/dinnerbot:latest
-docker run -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -v path_on_local_machine:/data:rw ptrfrll/dinnerbot
+docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -v path_on_local_machine:/data:rw ptrfrll/dinnerbot
 ```
 
 Example:
 ```
-docker run -e BOT_TOKEN="FAKETOKEN1234" -e CHANNEL_ID="1234567890" -v C:\Users\ptrfrll\dinnerbot:/data:rw ptrfrll/dinnerbot
+docker run -d -e BOT_TOKEN="FAKETOKEN1234" -e CHANNEL_ID="1234567890" -v C:\Users\ptrfrll\dinnerbot:/data:rw ptrfrll/dinnerbot
 ```
 
 ## Commands
