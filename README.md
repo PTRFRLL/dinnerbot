@@ -38,6 +38,19 @@ $ npm install
 $ npm start
 ```
 
+
+## Docker
+
+```
+docker pull ptrfrll/dinnerbot:latest
+docker run -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -v path_on_local_machine:/data:rw ptrfrll/dinnerbot
+```
+
+Example:
+```
+docker run -e BOT_TOKEN="FAKETOKEN1234" -e CHANNEL_ID="1234567890" -v C:\Users\ptrfrll\dinnerbot:/data:rw ptrfrll/dinnerbot
+```
+
 ## Commands
 
 ### !wins
