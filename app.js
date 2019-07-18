@@ -39,10 +39,10 @@ client.on('presenceUpdate', bot.presenceUpdate);
 
 
 try{
-	if(!CONFIG.app.DISCORD_BOT_TOKEN || CONFIG.app.DISCORD_BOT_TOKEN === 'DISCORD BOT TOKEN HERE' || CONFIG.app.DISCORD_BOT_TOKEN === ''){
+	if(!CONFIG.app.DISCORD_BOT_TOKEN || CONFIG.app.DISCORD_BOT_TOKEN === 'DISCORD_BOT_TOKEN' || CONFIG.app.DISCORD_BOT_TOKEN === ''){
 		throw Error('Discord bot token not provided in config.js');
 	}
-	if(!CONFIG.app.DISCORD_CHANNEL || CONFIG.app.DISCORD_CHANNEL === 'DISCORD CHANNEL ID' || CONFIG.app.DISCORD_CHANNEL === ''){
+	if(!CONFIG.app.DISCORD_CHANNEL || CONFIG.app.DISCORD_CHANNEL === 'DISCORD_CHANNEL_ID' || CONFIG.app.DISCORD_CHANNEL === ''){
 		throw Error('Discord channel ID not provided in config.js');
 	}
 }catch(e){

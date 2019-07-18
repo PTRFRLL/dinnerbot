@@ -37,6 +37,7 @@ const prod = {
 		DISCORD_BOT_TOKEN: 'DISCORD_BOT_TOKEN',
 		DISCORD_CHANNEL: 'DISCORD_CHANNEL_ID',
 		IMG_SCORE_THRESHOLD: 20000,
+		ALLOWED_EXT: ['png', 'jpeg', 'jpg'],
 		LOGMODE: 'prod',
 		AUTH_USERS: {
 			//can provide role names, user ids or both
@@ -58,6 +59,7 @@ const docker = {
 		DISCORD_BOT_TOKEN: process.env.BOT_TOKEN,
 		DISCORD_CHANNEL: process.env.CHANNEL_ID,
 		IMG_SCORE_THRESHOLD: 20000,
+		ALLOWED_EXT: ['png', 'jpeg', 'jpg'],
 		LOGMODE: 'prod',
 		AUTH_USERS: {
 			//can provide role names, user ids or both
