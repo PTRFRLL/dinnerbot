@@ -6,11 +6,11 @@ const bot = require('./lib/discord');
 const CONFIG = require('./config');
 
 //when we connect with Discord, sync with DB
-client.on('ready', () => {
-	let serverID = client.guilds.keys().next().value;
+client.once('ready', () => {
+	let serverID = client.guilds.cache.keys().next().value;
 	logger.debug('Running in debug mode...');
-	logger.log(`Connected to ${client.guilds.get(serverID).name}`);
-	logger.log(`Listening on #${client.channels.get(CONFIG.app.DISCORD_CHANNEL).name}`);
+	logger.log(`Connected to ${client.guilds.cache.get(serverID).name}`);
+	logger.log(`Listening on #${client.channels.cache.get(CONFIG.app.DISCORD_CHANNEL).name}`);
 	db.sequelize.sync().then(function() {
 		logger.log('DB synced');
 	});
