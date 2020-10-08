@@ -40,8 +40,7 @@ describe('Utils', () => {
 	describe('Hash', () => {
 		it('should create a hash', (done) => {
 			hashFile(__dirname + '/../tests/unknown720.png').then((hash) => {
-				expect(hash).toBeA('string');
-				expect(hash).toEqual('698d20f1bdf30be65718c3a909180a4bed261fc4');
+				expect(hash).toEqual('93eb676fe9f9cd5913febd8cbfeb53c98782dcd67603aaa7acbd8bd19b919fa0');
 				done();
 			})
 		});
@@ -78,8 +77,8 @@ describe('Compare.js', () => {
 describe('Complete Logic', () => {
 	it('should download image, resize, compare and delete from url', (done) => {
 		getImage('https://peterfiorella.com/img/DinnerBot/Nofly.jpg').then((imageProps) => {
-			expect(imageProps).toBeAn('object');
-			expect(imageProps.hash).toEqual('826e9fd4a9fbc44ccb444ccd2bfe2d449df2c76d');
+			//expect(imageProps).toBe('object');
+			expect(imageProps.hash).toEqual('6e268ce506b2f3737f1955eb4af14f1a8919fd2abd44da1f7f4e3f5976d813ca');
 			compare(imageProps.resizedPath).then((score) => {
 				expect(score).toBeLessThan(10000);
 				deleteFile(imageProps.resizedPath).then(() => {
