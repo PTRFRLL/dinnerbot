@@ -18,8 +18,14 @@ const commandFiles = fs.readdirSync('./lib/commands').filter(file => file.endsWi
 
 for(const file of commandFiles){
     const command = require(`./lib/commands/${file}`);
+	if(command.requiresAPIKey && (!CONFIG.services.PUBG_API_KEY || CONFIG.services.PUBG_API_KEY === ''))
+	{
+		logger.log(`No PUBG API key provided, skipping command: ${command.name}`);
+		continue;
+	}
     client.commands.set(command.name, command);
 }
+
 logger.log(`✅ ${commandFiles.length} commands added: (${[ ...client.commands.keys()]})`);
 
 //when we connect with Discord, sync with DB
