@@ -18,7 +18,10 @@
     "lodash": "^4.17.21",
     "mime-types": "^2.1.29",
     "moment": "^2.29.1",
+    "pixelmatch": "^5.2.1",
+    "pngjs": "^6.0.0",
     "sequelize": "^6.6.2",
+    "sharp": "^0.27.2",
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {

@@ -34,8 +34,8 @@ let spectator = [
 
 const prod = {
 	app: {
-		DISCORD_BOT_TOKEN: 'DISCORD_BOT_TOKEN',
-		DISCORD_CHANNEL: 'DISCORD_CHANNEL_ID',
+		DISCORD_BOT_TOKEN: 'NDYzNTYxMzEwNDc5ODQzMzI4.XSvMmg.fa3-6N3xKeYZKXUo_BWF4kaVi_4',
+		DISCORD_CHANNEL: '463539141741903873',
 		IMG_SCORE_THRESHOLD: 20000,
 		ALLOWED_EXT: ['png', 'jpeg', 'jpg'],
 		LOGMODE: 'prod',
@@ -47,10 +47,14 @@ const prod = {
 		BOT_RESPONSES_GOOD: good,
 		BOT_RESPONSES_BAD: bad,
 		BOT_PRESENCE_RESPONSES: winner,
-		BOT_SPECTATOR_RESPONSES: spectator
+		BOT_SPECTATOR_RESPONSES: spectator,
+		COMMAND_PREFIX: '!'
 	},
 	db: {
 		DATABASE_PATH:  __dirname + '/data/dinnerbot.sqlite'
+	},
+	services: {
+		PUBG_API_KEY: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzMmE1NDUyMC0xZTRiLTAxMzYtODVmNi02ZjdiNzFjM2E0OTIiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTIzMjk1NzA2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6ImRpcy1ib3QiLCJzY29wZSI6ImNvbW11bml0eSIsImxpbWl0IjoxMH0.NbE-m1NV9MaZUUCEEz2G9UmVvYRwTzgXCiuWazhDbPg'
 	}
 };
 
