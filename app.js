@@ -7,19 +7,23 @@ const CONFIG = require('./config');
 
 //when we connect with Discord, sync with DB
 client.on('ready', () => {
-	let serverID = client.guilds.keys().next().value;
+	let serverID = client.guilds.cache.keys().next().value;
 	logger.debug('Running in debug mode...');
-	logger.log(`Connected to ${client.guilds.get(serverID).name}`);
-	logger.log(`Listening on #${client.channels.get(CONFIG.app.DISCORD_CHANNEL).name}`);
+	logger.log(`✅ Connected to ${client.guilds.cache.get(serverID).name}`);
+	logger.log(`✅ Listening on #${client.channels.cache.get(CONFIG.app.DISCORD_CHANNEL).name}`);
 	db.sequelize.sync().then(function() {
-		logger.log('DB synced');
+		logger.log('✅ DB synced');
+		client.user.setActivity(`for chicken dinners 🐔 (v${package.version})`, {type: 'WATCHING'});
+	}).catch((e) => {
+		logger.error('❌ Error connecting to DB');
+		logger.error(e);
+		process.exit(1);
 	});
-	client.user.setActivity(`for chicken dinners 🐔`, {type: 'WATCHING'});
 });
 
 //if we cannot connect to Discord, quit app
 client.on('error', () => {
-	logger.error(`Error connecting to Discord, terminating...`);
+	logger.error(`❌ Error connecting to Discord, terminating...`);
 	process.exit(1);
 });
 
