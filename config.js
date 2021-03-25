@@ -41,7 +41,7 @@ const prod = {
 		LOGMODE: 'prod',
 		AUTH_USERS: {
 			//can provide role names, user ids or both
-			users: [''], //user ids
+			users: ['144142948622139393'], //user ids
 			roles: [''] //name of role
 		},
 		BOT_RESPONSES_GOOD: good,

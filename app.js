@@ -5,11 +5,11 @@ const logger = require('./lib/log.js');
 const bot = require('./lib/discord');
 const CONFIG = require('./config');
 const package = require('./package.json');
-
+const {isAuth, notAuthResponse} = require('./lib/discord');
 
 const {presenceUpdate} = require('./lib/events/presence');
-//const {checkScore} = require('./events/wins');
-//const {botMentioned} = require('./events/mention');
+const {botMentioned} = require('./lib/events/mention');
+const {checkScore} = require('./lib/events/wins');
 
 
 
