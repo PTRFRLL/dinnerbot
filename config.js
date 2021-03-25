@@ -1,4 +1,5 @@
-const env = process.env.NODE_ENV || 'prod';
+const env = process.env.NODE_ENV || 'docker';
+const path = require('path');
 
 let good = [
 	'Whatever you say...', 
@@ -38,7 +39,7 @@ const prod = {
 		DISCORD_CHANNEL: '463539141741903873',
 		IMG_SCORE_THRESHOLD: 20000,
 		ALLOWED_EXT: ['png', 'jpeg', 'jpg'],
-		LOGMODE: 'prod',
+		LOGMODE: 'debug',
 		AUTH_USERS: {
 			//can provide role names, user ids or both
 			users: ['144142948622139393'], //user ids
@@ -51,7 +52,7 @@ const prod = {
 		COMMAND_PREFIX: '!'
 	},
 	db: {
-		DATABASE_PATH:  __dirname + '/data/dinnerbot.sqlite'
+		DATABASE_PATH:  path.join(__dirname, 'data', 'dinnerbot.sqlite')
 	},
 	services: {
 		PUBG_API_KEY: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzMmE1NDUyMC0xZTRiLTAxMzYtODVmNi02ZjdiNzFjM2E0OTIiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTIzMjk1NzA2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6ImRpcy1ib3QiLCJzY29wZSI6ImNvbW11bml0eSIsImxpbWl0IjoxMH0.NbE-m1NV9MaZUUCEEz2G9UmVvYRwTzgXCiuWazhDbPg'
@@ -76,7 +77,10 @@ const docker = {
 		BOT_SPECTATOR_RESPONSES: spectator
 	},
 	db: {
-		DATABASE_PATH:  '/data/dinnerbot.sqlite'
+		DATABASE_PATH:  path.join('data', 'dinnerbot.sqlite')
+	},
+	services: {
+		PUBG_API_KEY: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzMmE1NDUyMC0xZTRiLTAxMzYtODVmNi02ZjdiNzFjM2E0OTIiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTIzMjk1NzA2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6ImRpcy1ib3QiLCJzY29wZSI6ImNvbW11bml0eSIsImxpbWl0IjoxMH0.NbE-m1NV9MaZUUCEEz2G9UmVvYRwTzgXCiuWazhDbPg'
 	}
 };
 
