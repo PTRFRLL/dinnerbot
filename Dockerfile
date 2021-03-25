@@ -9,4 +9,6 @@ RUN npm install
 
 COPY . /usr/src/app
 
-CMD [ "node", "app.js" ]
+VOLUME ["/config", "/data"]
+
+CMD ["/bin/bash", "deploy/init.sh"]
