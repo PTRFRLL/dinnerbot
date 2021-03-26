@@ -50,7 +50,7 @@ $ npm run dev
 
 
 ### Docker
-DinnerBot can also be run via Docker with the following command(s). We map a directory to the host machine to persist the SQlite database.
+DinnerBot can also be run via Docker with the following command(s). You need to map the `/config` and `/data` volumes in order for it to run
 
 ```
 docker pull ptrfrll/dinnerbot:latest
