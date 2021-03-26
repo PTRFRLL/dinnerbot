@@ -94,7 +94,7 @@ describe('Complete Logic', () => {
 	it('should download image, resize, compare and delete from url', async() => {
 		let imageProps = await getImage('https://raw.githubusercontent.com/PTRFRLL/dinnerbot/master/tests/unknown720.png');
 		expect(typeof imageProps).toBe('object');
-		expect(imageProps.hash).toEqual('f0c343136ee4de36ffc821aa9cc2868ecb1125ff');
+		expect(imageProps.hash).toEqual('2192a77310cd6c4c2d353521e9c74319c80c3030');
 		let score = await compare(imageProps.resizedPath);
 		expect(score).toBeLessThan(10000);
 		await deleteFile(imageProps.resizedPath);
