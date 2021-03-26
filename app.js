@@ -99,9 +99,14 @@ client.on('message', async (message) => {
 		logger.log(`${command.name} command requested by ${message.author.username}`);
 
 		//check if user is authorized to run command
-		if(command.requiresAuth && !isAuth(message))
+		if(command.requiresAuth)
 		{
-			return notAuthResponse(message);
+			if(message.channel.type === 'dm'){
+				return message.reply(`I can't check your server role in DMs, try again in <#${CONFIG.app.DISCORD_CHANNEL}> instead 👍`);
+			}
+			if(!isAuth(message)){
+				return notAuthResponse(message);
+			}
 		}
 		
 		if(command.args && (!args.length || args.length < command.argCount)){
