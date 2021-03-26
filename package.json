@@ -8,7 +8,7 @@
     "start": "node app.js",
     "test-watch": "nodemon --exec \"npm test\"",
     "docker": "cross-env NODE_ENV=docker node app.js",
-    "dev": "cross-env NODE_ENV=dev nodemon app.js",
+    "dev": "cross-env NODE_ENV=dev node --trace-warnings app.js",
     "build": "docker build . -t ptrfrll/dinnerbot"
   },
   "author": "PTRFRLL",
@@ -16,9 +16,9 @@
   "dependencies": {
     "axios": "^0.21.1",
     "colors": "^1.4.0",
+    "date-fns": "^2.19.0",
     "discord.js": "^12.5.1",
     "jimp": "^0.16.1",
-    "lodash": "^4.17.21",
     "mime-types": "^2.1.29",
     "moment": "^2.29.1",
     "pixelmatch": "^5.2.1",

@@ -2,20 +2,20 @@ const expect = require('expect');
 const path = require('path');
 const fs = require('fs');
 const compare = require('../lib/compare.js');
-const {resize, download, deleteFile, hashFile, getImage} = require('../lib/utils.js');
+const {normalizeImage, downloadFile, deleteFile, hashFile, getImage} = require('../lib/utils.js');
 const imageSize = require('image-size');
 const {ocr} = require('../lib/vision');
 
 describe('Utils', () => {
 	describe('Download', () => {
 		it('should download a file', (done) => {
-			download('https://peterfiorella.com/img/DinnerBot/dinner.png', 'test').then((filepath) => {
+			downloadFile('https://peterfiorella.com/img/DinnerBot/dinner.png', 'test').then((filepath) => {
 				expect(fs.existsSync(filepath)).toBe(true);
 				done();
 			});
 		});
 		it('should NOT download a not allowed extension', (done) => {
-			download('https://peterfiorella.com').then((filepath) => {
+			downloadFile('https://peterfiorella.com').then((filepath) => {
 				throw new Error('File downloaded');
 			}).catch((e) => {
 				expect(e).toEqual('Invalid extension, skipping download...')
@@ -23,11 +23,11 @@ describe('Utils', () => {
 			});
 		});
 	});
-	describe('Resize', () => {
-		it('should resize an image to 720p', (done) => {
-			download('https://peterfiorella.com/img/DinnerBot/dinner.png', 'testTwo').then((filepath) => {
+	describe('normalizeImage', () => {
+		it('should normalize the image', (done) => {
+			downloadFile('https://peterfiorella.com/img/DinnerBot/dinner.png', 'testTwo').then((filepath) => {
 				expect(fs.existsSync(filepath)).toBe(true);
-				resize(filepath).then(resized => {
+				normalizeImage(filepath).then(resized => {
 					expect(fs.existsSync(resized)).toBe(true);
 					let dimensions = imageSize(resized);
 					expect(dimensions.height).toBe(720);
