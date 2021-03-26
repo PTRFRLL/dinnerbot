@@ -1,4 +1,5 @@
-const env = process.env.NODE_ENV || 'prod';
+const env = process.env.NODE_ENV || 'DOCKER';
+const path = require('path');
 
 let good = [
 	'Whatever you say...', 
@@ -32,7 +33,7 @@ let spectator = [
 	'[USER], there for moral support... :angel:'
 ];
 
-const prod = {
+const dev = {
 	app: {
 		DISCORD_BOT_TOKEN: 'DISCORD_BOT_TOKEN',
 		DISCORD_CHANNEL: 'DISCORD_CHANNEL_ID',
@@ -47,14 +48,18 @@ const prod = {
 		BOT_RESPONSES_GOOD: good,
 		BOT_RESPONSES_BAD: bad,
 		BOT_PRESENCE_RESPONSES: winner,
-		BOT_SPECTATOR_RESPONSES: spectator
+		BOT_SPECTATOR_RESPONSES: spectator,
+		COMMAND_PREFIX: '!'
 	},
 	db: {
-		DATABASE_PATH:  __dirname + '/data/dinnerbot.sqlite'
+		DATABASE_PATH:  path.join(__dirname, 'data', 'dinnerbot.sqlite')
+	},
+	services: {
+		PUBG_API_KEY: ''
 	}
 };
 
-const docker = {
+const DOCKER = {
 	app: {
 		DISCORD_BOT_TOKEN: process.env.BOT_TOKEN,
 		DISCORD_CHANNEL: process.env.CHANNEL_ID,
@@ -69,17 +74,21 @@ const docker = {
 		BOT_RESPONSES_GOOD: good,
 		BOT_RESPONSES_BAD: bad,
 		BOT_PRESENCE_RESPONSES: winner,
-		BOT_SPECTATOR_RESPONSES: spectator
+		BOT_SPECTATOR_RESPONSES: spectator,
+		COMMAND_PREFIX: '!'
 	},
 	db: {
-		DATABASE_PATH:  '/data/dinnerbot.sqlite'
+		DATABASE_PATH:  path.join('/', 'data', 'dinnerbot.sqlite')
+	},
+	services: {
+		PUBG_API_KEY:  process.env.PUBG_API_KEY
 	}
 };
 
 
 const config = {
-	prod,
-	docker
+	dev,
+	DOCKER
 };
 
 module.exports = config[env];

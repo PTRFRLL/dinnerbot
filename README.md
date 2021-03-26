@@ -5,17 +5,19 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/PTRFRLL/dinnerbot.svg)
 [![Discord Status](https://discordapp.com/api/guilds/144143242928193537/embed.png)](https://discord.gg)
 
+![Dinner Bot](examples/winner.gif)
 
-
-![Dinner Bot](examples/main.png)
-
-DinnerBot is a Discord bot that listens on a specfic channel for PUBG win screenshots and responds with  **WINNER WINNER CHICKEN DINNER** and some emoji 🐔 🏆 🍽 if the image is a winning screenshot. Useful for `chicken-dinner-receipt` channels where only winning screenshots are posted. Keeps track of win count for each tagged users.
+DinnerBot is a Discord bot that listens on a specfic channel for PUBG win screenshots and responds with **WINNER WINNER CHICKEN DINNER** and some emoji 🐔 🏆 🍽 if the image is a winning screenshot. Useful for `chicken-dinner-receipt` channels where only winning screenshots are posted. Keeps track of win count for each tagged users.
 
 ### Image Comparison
-Winning screenshots are determined by comparing the uploaded screenshot with a known win screenshot ([base.png](./data/img/base.png)). If the uploaded screenshot is within a certain similarity score to the base image, a win is awared.
+
+Winning screenshots are determined by comparing the uploaded screenshot with a known win screenshot ([base.png](./data/img/base.png)). If the uploaded screenshot is within a certain similarity score to the base image, a win is awarded.
+
+If the uploaded image is not within the specified threshold, the image will be OCRed and the bot looks for the text **"WINNER WINNER CHICKEN DINNER"**
 
 ### Image Hash
-When a winning screenshot is added, dinnerbot will compute the SHA1 hash of the uploaded image and store it in the database. This is used to avoid someone uploading duplicate images. 
+
+When a winning screenshot is added, dinnerbot will compute the SHA1 hash of the uploaded image and store it in the database. This is used to avoid someone uploading duplicate images.
 
 ![Hash](examples/dupe.png)
 
@@ -23,17 +25,38 @@ When a winning screenshot is added, dinnerbot will compute the SHA1 hash of the 
 
 ### Create Bot in Discord Dev portal
 
-Create a new dev app on Discord [here](https://discordapp.com/developers/applications/me). 
+Create a new dev app on Discord [here](https://discordapp.com/developers/applications/me).
 
 Under the Bot section, click Add Bot and copy your bot's Token.
 
 Add the bot to your server using [bot authorization flow](https://discordapp.com/developers/docs/topics/oauth2#bots):
 
 Example link (note CLIENT_ID != TOKEN):
+
 ```
 https://discordapp.com/api/oauth2/authorize?client_id=CLIENT_ID&scope=bot&permissions=75840
 ```
 
+### Docker
+
+The simplest way to run dinnerbot. You need to map the `/config` and `/data` volumes in order for it to run
+
+```
+docker pull ptrfrll/dinnerbot:latest
+docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -e PUBG_API_KEY="PUBG_API_KEY" -v path_on_local_machine:/data:rw -v path_on_local_machine:/config:rw ptrfrll/dinnerbot
+```
+
+Example:
+
+```
+docker run -d --name dinnerbot \
+-e BOT_TOKEN="FAKETOKEN1234" \
+-e CHANNEL_ID="1234567890" \
+-e PUBG_API_KEY="abc123" \
+-v C:\Users\ptrfrll\dinnerbot\data:/data:rw \
+-v C:\Users\ptrfrll\dinnerbot\config:/config:rw \
+ptrfrll/dinnerbot
+```
 
 ### Run locally
 
@@ -43,21 +66,7 @@ Start the bot with:
 
 ```
 $ npm install
-$ npm start
-```
-
-
-### Docker
-DinnerBot can also be run via Docker with the following command(s). We map a directory to the host machine to persist the SQlite database.
-
-```
-docker pull ptrfrll/dinnerbot:latest
-docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -v path_on_local_machine:/data:rw ptrfrll/dinnerbot
-```
-
-Example:
-```
-docker run -d -e BOT_TOKEN="FAKETOKEN1234" -e CHANNEL_ID="1234567890" -v C:\Users\ptrfrll\dinnerbot:/data:rw ptrfrll/dinnerbot
+$ npm run dev
 ```
 
 ## Commands
@@ -66,20 +75,17 @@ docker run -d -e BOT_TOKEN="FAKETOKEN1234" -e CHANNEL_ID="1234567890" -v C:\User
 
 Use `!wins` command to see current win count, you can tag users to show their count as well.
 
-Ex. `!wins @Dirka @tgruenen24` produces: 
+Ex. `!wins @Dirka @tgruenen24` produces:
 
 ![Win Count](examples/wins.png)
 
-## Manual Wins  
+### !help
 
-If an image is uploaded that scores too high but it should be a win, the user marked as `AUTH_USER` in config.js can mention the bot and it will award the win anyway (this only works for the last non-win). Dinner-Bot will respond with a random phrase taken from the `good` array in config.js
+Use `!help` or mention the bot to get a list of available commands
 
-![bot](examples/manual.png)
+## PUBG Stats
 
-
-If anyone else mentions the bot, it will repond with a response from the `bad` array:
-
-![bot](examples/bad.png)
+The bot can query the PUBG API for stats from the last win and lifetime stats. You'll need to get a [PUBG API Key](https://developer.pubg.com/) and add it via the `PUBG_API_KEY` environment variable/config file
 
 ## Configuration
 
@@ -88,7 +94,7 @@ Edit the [config.js](./config.js) to change these settings.
 ```js
 IMG_SCORE_THRESHOLD: 20000, //if the image score is below this number it's awared a win (20,000 is arbitrary based off my testing)
 LOGMODE: 'prod', //prod or debug
-AUTH_USERS: { 
+AUTH_USERS: {
     //users/roles specified here can award wins that scored too high
     users: [''], //array of user ids
     roles: [''] //array of role names
@@ -97,12 +103,9 @@ BOT_RESPONSES_GOOD: good, //array of 'good' responses from bot, replied when AUT
 BOT_RESPONSES_BAD: bad //array of 'bad' responses from bot, replied when non-AUTH_USER mentions bot
 ```
 
-
 ## Built With
 
-* [Discord.js](https://discord.js.org/#/) - Javascript library for Discord API
-* [Moment.js](https://momentjs.com/) - Javascript Date Library
-* [Pixelmatch](https://github.com/mapbox/pixelmatch) - pixel-level image comparison library
-* [Sequelize](http://docs.sequelizejs.com/) - ORM
-* [Sharp](https://github.com/lovell/sharp) - Image Processing
-* [Axios](https://github.com/axios/axios) - Promise based HTTP client
+- [Discord.js](https://discord.js.org/#/) - Javascript library for Discord API
+- [Moment.js](https://momentjs.com/) - Javascript Date Library
+- [Sequelize](http://docs.sequelizejs.com/) - ORM
+- [Axios](https://github.com/axios/axios) - Promise based HTTP client

@@ -1,21 +1,21 @@
 const expect = require('expect');
+const path = require('path');
 const fs = require('fs');
 const compare = require('../lib/compare.js');
-const {resize, download, deleteFile, hashFile, getImage} = require('../lib/utils.js');
-const score = require('../lib/score.js');
+const {normalizeImage, downloadFile, deleteFile, hashFile, getImage} = require('../lib/utils.js');
 const imageSize = require('image-size');
-
+const {ocr} = require('../lib/vision');
 
 describe('Utils', () => {
 	describe('Download', () => {
 		it('should download a file', (done) => {
-			download('https://peterfiorella.com/img/DinnerBot/dinner.png', 'test').then((path) => {
-				expect(fs.existsSync(path)).toBe(true);
+			downloadFile('https://peterfiorella.com/img/DinnerBot/dinner.png', 'test').then((filepath) => {
+				expect(fs.existsSync(filepath)).toBe(true);
 				done();
 			});
 		});
 		it('should NOT download a not allowed extension', (done) => {
-			download('https://peterfiorella.com').then((path) => {
+			downloadFile('https://peterfiorella.com').then((filepath) => {
 				throw new Error('File downloaded');
 			}).catch((e) => {
 				expect(e).toEqual('Invalid extension, skipping download...')
@@ -23,11 +23,11 @@ describe('Utils', () => {
 			});
 		});
 	});
-	describe('Resize', () => {
-		it('should resize an image to 720p', (done) => {
-			download('https://peterfiorella.com/img/DinnerBot/dinner.png', 'testTwo').then((path) => {
-				expect(fs.existsSync(path)).toBe(true);
-				resize(path).then(resized => {
+	describe('normalizeImage', () => {
+		it('should normalize the image', (done) => {
+			downloadFile('https://peterfiorella.com/img/DinnerBot/dinner.png', 'testTwo').then((filepath) => {
+				expect(fs.existsSync(filepath)).toBe(true);
+				normalizeImage(filepath).then(resized => {
 					expect(fs.existsSync(resized)).toBe(true);
 					let dimensions = imageSize(resized);
 					expect(dimensions.height).toBe(720);
@@ -39,22 +39,28 @@ describe('Utils', () => {
 	});
 	describe('Hash', () => {
 		it('should create a hash', (done) => {
-			hashFile(__dirname + '/../tests/unknown720.png').then((hash) => {
-				expect(hash).toBeA('string');
-				expect(hash).toEqual('698d20f1bdf30be65718c3a909180a4bed261fc4');
+			let filePath = path.join(__dirname, 'unknown720.png');
+			hashFile(filePath).then((hash) => {
+				expect(typeof hash).toBe('string');
+				expect(hash).toEqual('f0c343136ee4de36ffc821aa9cc2868ecb1125ff');
+				done();
+			}).catch(err => {
+				console.error(err);
 				done();
 			})
 		});
 	});
 	describe('Delete', () => {
 		it('should delete a file', (done) => {
-			let filePath = __dirname + '/../data/img/testTwo.png';
+			let filePath = path.join(__dirname, '..', 'data', 'img', 'testTwo.png')
 			expect(fs.existsSync(filePath)).toBe(true);
-			deleteFile(filePath);
-			fs.stat(filePath, (err, stat) => {
-				expect(err.code).toBe('ENOENT');
-				done();
+			deleteFile(filePath).then(() => {
+				fs.stat(filePath, (err, stat) => {
+					expect(err.code).toBe('ENOENT');
+					done();
+				});
 			});
+			
 		});
 	});
 });
@@ -62,38 +68,45 @@ describe('Utils', () => {
 
 describe('Compare.js', () => {
 	it('should get compare score > 10,000', (done) => {
-		compare(__dirname + '/../tests/fail.png').then((score) => {
+		compare(path.join(__dirname, 'fail.png')).then((score) => {
 			expect(score).toBeGreaterThan(10000);
 			done();
 		});
 	});
 	it('should get compare score < 10,000', (done) => {
-		compare(__dirname + '/../tests/unknown720.png').then((score) => {
+		compare(path.join(__dirname, 'unknown720.png')).then((score) => {
 			expect(score).toBeLessThan(10000);
 			done();
 		});
 	});
 });
 
+describe('OCR', () => {
+	it('should get WINNER WINNER text from image', (done) => {
+		ocr(path.join(__dirname, 'fail.png')).then((text) => {
+			expect(text).toContain('WINNER WINNER');
+			done();
+		});
+	});
+})
+
 describe('Complete Logic', () => {
-	it('should download image, resize, compare and delete from url', (done) => {
-		getImage('https://peterfiorella.com/img/DinnerBot/Nofly.jpg').then((imageProps) => {
-			expect(imageProps).toBeAn('object');
-			expect(imageProps.hash).toEqual('826e9fd4a9fbc44ccb444ccd2bfe2d449df2c76d');
-			compare(imageProps.resizedPath).then((score) => {
-				expect(score).toBeLessThan(10000);
-				deleteFile(imageProps.resizedPath).then(() => {
-					fs.stat(imageProps.resizedPath, (err, stat) => {
-						expect(err.code).toBe('ENOENT');
-						done();
-					});
-				});
-			})
+	it('should download image, resize, compare and delete from url', async() => {
+		let imageProps = await getImage('https://raw.githubusercontent.com/PTRFRLL/dinnerbot/master/tests/unknown720.png');
+		expect(typeof imageProps).toBe('object');
+		expect(imageProps.hash).toEqual('f0c343136ee4de36ffc821aa9cc2868ecb1125ff');
+		let score = await compare(imageProps.resizedPath);
+		expect(score).toBeLessThan(10000);
+		await deleteFile(imageProps.resizedPath);
+		fs.stat(imageProps.resizedPath, (err, stat) => {
+			expect(err.code).toBe('ENOENT');
+			return;
 		});
 	});
 });
 
 after(() => {
-	deleteFile(__dirname + '/../data/img/test.png');
-	deleteFile(__dirname + '/../data/img/testTwo_converted.png');
+	deleteFile(path.join(__dirname, '..', 'data', 'img', 'test.png'));
+	deleteFile(path.join(__dirname, '..', 'data', 'img', 'testTwo_converted.png'));
+	deleteFile(path.join(__dirname, '..', 'data', 'img', 'temp_converted.png'));
 })
