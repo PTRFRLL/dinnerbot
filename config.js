@@ -1,4 +1,4 @@
-const env = process.env.NODE_ENV || 'docker';
+const env = process.env.NODE_ENV || 'DOCKER';
 const path = require('path');
 
 let good = [
@@ -59,7 +59,7 @@ const dev = {
 	}
 };
 
-const docker = {
+const DOCKER = {
 	app: {
 		DISCORD_BOT_TOKEN: process.env.BOT_TOKEN,
 		DISCORD_CHANNEL: process.env.CHANNEL_ID,
@@ -88,7 +88,7 @@ const docker = {
 
 const config = {
 	dev,
-	docker
+	DOCKER
 };
 
 module.exports = config[env];
