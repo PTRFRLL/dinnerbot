@@ -12,7 +12,9 @@
 DinnerBot is a Discord bot that listens on a specfic channel for PUBG win screenshots and responds with  **WINNER WINNER CHICKEN DINNER** and some emoji 🐔 🏆 🍽 if the image is a winning screenshot. Useful for `chicken-dinner-receipt` channels where only winning screenshots are posted. Keeps track of win count for each tagged users.
 
 ### Image Comparison
-Winning screenshots are determined by comparing the uploaded screenshot with a known win screenshot ([base.png](./data/img/base.png)). If the uploaded screenshot is within a certain similarity score to the base image, a win is awared.
+Winning screenshots are determined by comparing the uploaded screenshot with a known win screenshot ([base.png](./data/img/base.png)). If the uploaded screenshot is within a certain similarity score to the base image, a win is awarded.
+
+If the uploaded image is not within the specified threshold, the image will be OCRed and the bot looks for the text **"WINNER WINNER CHICKEN DINNER"**
 
 ### Image Hash
 When a winning screenshot is added, dinnerbot will compute the SHA1 hash of the uploaded image and store it in the database. This is used to avoid someone uploading duplicate images. 
@@ -43,7 +45,7 @@ Start the bot with:
 
 ```
 $ npm install
-$ npm start
+$ npm run dev
 ```
 
 
@@ -52,12 +54,18 @@ DinnerBot can also be run via Docker with the following command(s). We map a dir
 
 ```
 docker pull ptrfrll/dinnerbot:latest
-docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -v path_on_local_machine:/data:rw ptrfrll/dinnerbot
+docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -v path_on_local_machine:/data:rw -v path_on_local_machine:/config:rw ptrfrll/dinnerbot
 ```
 
 Example:
 ```
-docker run -d -e BOT_TOKEN="FAKETOKEN1234" -e CHANNEL_ID="1234567890" -v C:\Users\ptrfrll\dinnerbot:/data:rw ptrfrll/dinnerbot
+docker run -d --name dinnerbot \
+-e BOT_TOKEN="FAKETOKEN1234" \
+-e CHANNEL_ID="1234567890" \
+-e PUBG_API_KEY="abc123" \
+-v C:\Users\ptrfrll\dinnerbot\data:/data:rw \
+-v C:\Users\ptrfrll\dinnerbot\config:/config:rw \
+ptrfrll/dinnerbot
 ```
 
 ## Commands
@@ -70,16 +78,15 @@ Ex. `!wins @Dirka @tgruenen24` produces:
 
 ![Win Count](examples/wins.png)
 
-## Manual Wins  
+### !help
 
-If an image is uploaded that scores too high but it should be a win, the user marked as `AUTH_USER` in config.js can mention the bot and it will award the win anyway (this only works for the last non-win). Dinner-Bot will respond with a random phrase taken from the `good` array in config.js
-
-![bot](examples/manual.png)
+Use `!help` or mention the bot to get a list of available commands
 
 
-If anyone else mentions the bot, it will repond with a response from the `bad` array:
+## PUBG Stats
 
-![bot](examples/bad.png)
+The bot can query the PUBG API for stats from the last win and lifetime stats. You'll need to get a [PUBG API Key](https://developer.pubg.com/) and add it via the `PUBG_API_KEY` environment variable/config file
+
 
 ## Configuration
 
@@ -102,7 +109,5 @@ BOT_RESPONSES_BAD: bad //array of 'bad' responses from bot, replied when non-AUT
 
 * [Discord.js](https://discord.js.org/#/) - Javascript library for Discord API
 * [Moment.js](https://momentjs.com/) - Javascript Date Library
-* [Pixelmatch](https://github.com/mapbox/pixelmatch) - pixel-level image comparison library
 * [Sequelize](http://docs.sequelizejs.com/) - ORM
-* [Sharp](https://github.com/lovell/sharp) - Image Processing
 * [Axios](https://github.com/axios/axios) - Promise based HTTP client

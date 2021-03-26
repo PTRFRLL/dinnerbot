@@ -8,7 +8,8 @@
     "start": "node app.js",
     "test-watch": "nodemon --exec \"npm test\"",
     "docker": "cross-env NODE_ENV=docker node app.js",
-    "dev": "cross-env NODE_ENV=dev nodemon app.js"
+    "dev": "cross-env NODE_ENV=dev nodemon app.js",
+    "build": "docker build . -t db-test"
   },
   "author": "PTRFRLL",
   "license": "MIT",

@@ -5,4 +5,4 @@ if [ ! -f /config/config.js ]; then
 fi
 
 cd /usr/src/app/
-node app.js
+NODE_ENV=DOCKER node app.js

@@ -25,7 +25,7 @@ for(const file of commandFiles){
 	}
     client.commands.set(command.name, command);
 }
-
+logger.debug(`Running in ${process.env.NODE_ENV} environment`)
 logger.log(`✅ ${commandFiles.length} commands added: (${[ ...client.commands.keys()]})`);
 
 //when we connect with Discord, sync with DB
