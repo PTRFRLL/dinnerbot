@@ -21,4 +21,4 @@ jobs:
           push: true
           file: Dockerfile
           tags: |
-            ptrfrll/ptrfrll/db:latest
+            ptrfrll/dinnerbot:latest
