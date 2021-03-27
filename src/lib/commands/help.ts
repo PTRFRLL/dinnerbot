@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { Command, ExtendedClient } from "../../types";
 
-export const HelpCommand: Command = {
+const HelpCommand: Command = {
     name: 'help',
     description: 'List all of my commands or info about a specific command.',
     requiresAuth: false,
@@ -47,3 +47,5 @@ export const HelpCommand: Command = {
 		message.channel.send(data, { split: true });
     }
 };
+
+export default HelpCommand;

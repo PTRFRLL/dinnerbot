@@ -15,3 +15,16 @@ export class Command{
     aliases: Array<string>;
     execute(message: Message, args: Array<string>): Promise<void>;
 }
+
+export class User {
+    username: string;
+    discord_id: string;
+    wins: number;
+    pubg_username: string;
+    pubg_id: string;
+}
+
+export interface ImageProps {
+    path: string;
+    hash: string;
+}
