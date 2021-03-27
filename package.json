@@ -4,6 +4,7 @@
   "description": "Discord bot to track PUBG wins",
   "main": "app.js",
   "scripts": {
+    "compile": "tsc",
     "test": "mocha tests/*.test.js",
     "start": "node app.js",
     "test-watch": "nodemon --exec \"npm test\"",
@@ -28,11 +29,17 @@
     "tesseract.js": "^2.1.4"
   },
   "devDependencies": {
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^14.14.37",
+    "@types/sinon": "^9.0.11",
     "cross-env": "^7.0.3",
     "expect": "^26.6.2",
+    "gts": "^3.1.0",
     "image-size": "^0.9.7",
     "mocha": "^8.3.2",
     "nodemon": "^2.0.7",
-    "sinon": "^10.0.0"
+    "sinon": "^10.0.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   }
 }
