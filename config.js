@@ -39,7 +39,7 @@ const dev = {
 		DISCORD_CHANNEL: 'DISCORD_CHANNEL_ID',
 		IMG_SCORE_THRESHOLD: 20000,
 		ALLOWED_EXT: ['png', 'jpeg', 'jpg'],
-		LOGMODE: 'prod',
+		LOGMODE: process.env.LOG_MODE || 'dev',
 		AUTH_USERS: {
 			//can provide role names, user ids or both
 			users: [''], //user ids
@@ -49,7 +49,10 @@ const dev = {
 		BOT_RESPONSES_BAD: bad,
 		BOT_PRESENCE_RESPONSES: winner,
 		BOT_SPECTATOR_RESPONSES: spectator,
-		COMMAND_PREFIX: '!'
+		COMMAND_PREFIX: '!',
+		STAT_WAIT_TIME_IN_SECONDS: 100,
+		STAT_RETRY_TIME_IN_SECONDS: 30,
+		STAT_ABANDON_AFTER_IN_SECONDS: 300 //how long should stats try to find latest win, default is 300
 	},
 	db: {
 		DATABASE_PATH:  path.join(__dirname, 'data', 'dinnerbot.sqlite')
@@ -65,7 +68,7 @@ const DOCKER = {
 		DISCORD_CHANNEL: process.env.CHANNEL_ID,
 		IMG_SCORE_THRESHOLD: 20000,
 		ALLOWED_EXT: ['png', 'jpeg', 'jpg'],
-		LOGMODE: 'prod',
+		LOGMODE: process.env.LOG_MODE || 'prod',
 		AUTH_USERS: {
 			//can provide role names, user ids or both
 			users: [''], //user ids
@@ -75,7 +78,10 @@ const DOCKER = {
 		BOT_RESPONSES_BAD: bad,
 		BOT_PRESENCE_RESPONSES: winner,
 		BOT_SPECTATOR_RESPONSES: spectator,
-		COMMAND_PREFIX: '!'
+		COMMAND_PREFIX: '!',
+		STAT_WAIT_TIME_IN_SECONDS: 100, //how long to wait before querying stats
+		STAT_RETRY_TIME_IN_SECONDS: 30, //how often to retry query for stats
+		STAT_ABANDON_AFTER_IN_SECONDS: 300 //how long should stats try to find latest win, default is 300
 	},
 	db: {
 		DATABASE_PATH:  path.join('/', 'data', 'dinnerbot.sqlite')
