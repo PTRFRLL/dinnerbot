@@ -39,7 +39,7 @@ const dev = {
 		DISCORD_CHANNEL: 'DISCORD_CHANNEL_ID',
 		IMG_SCORE_THRESHOLD: 20000,
 		ALLOWED_EXT: ['png', 'jpeg', 'jpg'],
-		LOGMODE: process.env.LOG_MODE || 'dev',
+		LOGMODE: process.env.LOG_MODE || 'debug',
 		AUTH_USERS: {
 			//can provide role names, user ids or both
 			users: [''], //user ids
