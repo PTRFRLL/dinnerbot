@@ -91,10 +91,20 @@ const DOCKER = {
 	}
 };
 
+const test = {
+	app: {
+		LOGMODE: 'prod',
+	},
+	db: {
+		DATABASE_PATH: "sqlite::memory:"
+	}
+}
+
 
 const config = {
 	dev,
-	DOCKER
+	DOCKER,
+	test
 };
 
 module.exports = config[env];
