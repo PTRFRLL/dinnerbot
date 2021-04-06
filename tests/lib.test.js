@@ -82,7 +82,8 @@ describe('Compare.js', () => {
 });
 
 describe('OCR', () => {
-	it('should get WINNER WINNER text from image', (done) => {
+	it('should get WINNER WINNER text from image', function(done){
+		this.timeout(0);
 		ocr(path.join(__dirname, 'fail.png')).then((text) => {
 			expect(text).toContain('WINNER WINNER');
 			done();
