@@ -94,6 +94,7 @@ const DOCKER = {
 const test = {
 	app: {
 		LOGMODE: 'prod',
+		ALLOWED_EXT: ['png', 'jpeg', 'jpg']
 	},
 	db: {
 		DATABASE_PATH: "sqlite::memory:"
