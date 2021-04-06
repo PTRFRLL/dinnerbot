@@ -75,7 +75,7 @@ $ npm run dev
 
 Use `!wins` command to see current win count, you can tag users to show their count as well.
 
-Ex. `!wins @Dirka @tgruenen24` produces:
+Ex. `!wins @DericLee @Tarvis` produces:
 
 ![Win Count](examples/wins.png)
 
@@ -83,9 +83,13 @@ Ex. `!wins @Dirka @tgruenen24` produces:
 
 Use `!help` or mention the bot to get a list of available commands
 
+![Help](examples/help.png)
+
 ## PUBG Stats
 
 The bot can query the PUBG API for stats from the last win and lifetime stats. You'll need to get a [PUBG API Key](https://developer.pubg.com/) and add it via the `PUBG_API_KEY` environment variable/config file
+
+![stats](examples/stats.png)
 
 ## Configuration
 
