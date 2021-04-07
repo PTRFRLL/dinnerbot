@@ -22,3 +22,4 @@ jobs:
           file: Dockerfile
           tags: |
             ptrfrll/dinnerbot:dev
+            ptrfrll/dinnerbot:latest
