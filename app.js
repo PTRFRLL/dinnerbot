@@ -11,6 +11,7 @@ const {botMentioned} = require('./lib/events/mention');
 const {checkScore} = require('./lib/events/wins');
 
 
+const prefix = CONFIG.app.COMMAND_PREFIX;
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -37,7 +38,7 @@ client.on('ready', () => {
 	logger.log(`✅ Listening on #${client.channels.cache.get(CONFIG.app.DISCORD_CHANNEL).name}`);
 	db.sequelize.sync().then(function() {
 		logger.log('✅ DB synced');
-		client.user.setActivity(`for chicken dinners 🐔 (v${package.version})`, {type: 'WATCHING'});
+		client.user.setActivity(`for chicken dinners 🐔 DM ${prefix}help for commands. (v${package.version})`, {type: 'WATCHING'});
 	}).catch((e) => {
 		logger.error('❌ Error connecting to DB');
 		logger.error(e);
