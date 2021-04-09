@@ -23,6 +23,7 @@
     "moment": "^2.29.1",
     "pixelmatch": "^5.2.1",
     "pngjs": "^6.0.0",
+    "pushover-notifications": "^1.2.2",
     "sequelize": "^6.6.2",
     "sqlite3": "^5.0.2",
     "tesseract.js": "^2.1.4"
