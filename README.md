@@ -109,8 +109,6 @@ AUTH_USERS: {
     users: [''], //array of user ids
     roles: [''] //array of role names
 },
-BOT_RESPONSES_GOOD: good, //array of 'good' responses from bot, replied when AUTH_USER mentions bot
-BOT_RESPONSES_BAD: bad //array of 'bad' responses from bot, replied when non-AUTH_USER mentions bot
 ```
 
 ## Built With
