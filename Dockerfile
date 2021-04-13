@@ -9,7 +9,7 @@ RUN npm install --prod
 
 COPY . /usr/src/app
 
-VOLUME ["/config", "/data"]
+VOLUME ["/data"]
 
 ENV NODE_ENV DOCKER
 

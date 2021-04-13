@@ -80,7 +80,7 @@ The simplest way to run dinnerbot. You need to map the `/config` and `/data` vol
 
 ```
 docker pull ptrfrll/dinnerbot:latest
-docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -e PUBG_API_KEY="PUBG_API_KEY" -e DATABASE_PATH="/data/db.sqlite" -v path_on_local_machine:/data:rw -v path_on_local_machine:/config:rw ptrfrll/dinnerbot
+docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -e PUBG_API_KEY="PUBG_API_KEY" -e DATABASE_PATH="/data/db.sqlite" -v path_on_local_machine:/data:rw ptrfrll/dinnerbot
 ```
 
 Example:
@@ -92,7 +92,6 @@ docker run -d --name dinnerbot \
 -e PUBG_API_KEY="abc123" \
 -e DATABASE_PATH="/data/db.sqlite" \
 -v C:\Users\ptrfrll\dinnerbot\data:/data:rw \
--v C:\Users\ptrfrll\dinnerbot\config:/config:rw \
 ptrfrll/dinnerbot
 ```
 
