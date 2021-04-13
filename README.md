@@ -29,6 +29,12 @@ Create a new dev app on Discord [here](https://discordapp.com/developers/applica
 
 Under the Bot section, click Add Bot and copy your bot's Token.
 
+**Presence Intent**
+
+If you want dinnerbot to alert when it detects a win via Discord presence, be sure to enable Presence Intent under the Privileged Gateway Intents on the Bot section
+
+![presence](examples/presence.png)
+
 Add the bot to your server using [bot authorization flow](https://discordapp.com/developers/docs/topics/oauth2#bots):
 
 Example link (note CLIENT_ID != TOKEN):
