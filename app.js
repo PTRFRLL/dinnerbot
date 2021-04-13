@@ -2,16 +2,18 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const db = require('./lib/db.js');
 const logger = require('./lib/log.js');
-const CONFIG = require('./config');
 const package = require('./package.json');
 const {isAuth, notAuthResponse} = require('./lib/discord');
 
 const {presenceUpdate} = require('./lib/events/presence');
 const {botMentioned} = require('./lib/events/mention');
 const {checkScore} = require('./lib/events/wins');
+const {ALLOWED_EXT} = require('./lib/constants');
 
-
-const prefix = CONFIG.app.COMMAND_PREFIX;
+const prefix = process.env.COMMAND_PREFIX ?? "!";
+const DISCORD_CHANNEL = process.env.DISCORD_CHANNEL;
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
+const PUBG_API_KEY = process.env.PUBG_API_KEY;
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -19,7 +21,7 @@ const commandFiles = fs.readdirSync('./lib/commands').filter(file => file.endsWi
 
 for(const file of commandFiles){
     const command = require(`./lib/commands/${file}`);
-	if(command.requiresAPIKey && (!CONFIG.services.PUBG_API_KEY || CONFIG.services.PUBG_API_KEY === ''))
+	if(command.requiresAPIKey && (!PUBG_API_KEY || PUBG_API_KEY === ''))
 	{
 		logger.log(`No PUBG API key provided, skipping command: ${command.name}`);
 		continue;
@@ -35,7 +37,7 @@ client.on('ready', () => {
 	let serverID = client.guilds.cache.keys().next().value;
 	logger.debug('Running in debug mode...');
 	logger.log(`✅ Connected to ${client.guilds.cache.get(serverID).name}`);
-	logger.log(`✅ Listening on #${client.channels.cache.get(CONFIG.app.DISCORD_CHANNEL).name}`);
+	logger.log(`✅ Listening on #${client.channels.cache.get(DISCORD_CHANNEL).name}`);
 	db.sequelize.sync().then(function() {
 		logger.log('✅ DB synced');
 		client.user.setActivity(`for chicken dinners 🐔 DM ${prefix}help for commands. (v${package.version})`, {type: 'WATCHING'});
@@ -63,18 +65,18 @@ client.on('reconnecting', () => {
 client.on('message', async (message) => {
 	try{
 		//if message isn't DM to bot or on proper channel (or from a bot), ignore it
-		if (message.author.bot || (message.channel.type !== 'dm' && message.channel.id !== CONFIG.app.DISCORD_CHANNEL)) return;
+		if (message.author.bot || (message.channel.type !== 'dm' && message.channel.id !== DISCORD_CHANNEL)) return;
 
 		//check for screenshot
 		let attachment = message.attachments.first();
 		if (attachment){
 			//don't allow chicken dinner screenshots in DMs
 			if(message.channel.type === 'dm'){
-				return message.reply(`I can't award wins here, post in <#${CONFIG.app.DISCORD_CHANNEL}> instead 👍`);
+				return message.reply(`I can't award wins here, post in <#${DISCORD_CHANNEL}> instead 👍`);
 			}
 			logger.log(`Attachment found from ${message.author.username}`);
 			logger.log(`Filename: ${attachment.name}`);
-			if(!CONFIG.app.ALLOWED_EXT.includes(attachment.name.split('.').pop().toLowerCase())){
+			if(!ALLOWED_EXT.includes(attachment.name.split('.').pop().toLowerCase())){
 				logger.log('Extension not allowed, skipping...');
 				return;
 			}
@@ -103,7 +105,7 @@ client.on('message', async (message) => {
 		if(command.requiresAuth)
 		{
 			if(message.channel.type === 'dm'){
-				return message.reply(`I can't check your server role in DMs, try again in <#${CONFIG.app.DISCORD_CHANNEL}> instead 👍`);
+				return message.reply(`I can't check your server role in DMs, try again in <#${DISCORD_CHANNEL}> instead 👍`);
 			}
 			if(!isAuth(message)){
 				return notAuthResponse(message);
@@ -131,17 +133,17 @@ client.on('presenceUpdate', presenceUpdate);
 
 
 try{
-	if(!CONFIG.app.DISCORD_BOT_TOKEN || CONFIG.app.DISCORD_BOT_TOKEN === 'DISCORD_BOT_TOKEN' || CONFIG.app.DISCORD_BOT_TOKEN === ''){
-		throw Error('Discord bot token not provided in config.js');
+	if(!DISCORD_BOT_TOKEN || DISCORD_BOT_TOKEN === 'DISCORD_BOT_TOKEN' || DISCORD_BOT_TOKEN === ''){
+		throw Error('Discord bot token not provided');
 	}
-	if(!CONFIG.app.DISCORD_CHANNEL || CONFIG.app.DISCORD_CHANNEL === 'DISCORD_CHANNEL_ID' || CONFIG.app.DISCORD_CHANNEL === ''){
-		throw Error('Discord channel ID not provided in config.js');
+	if(!DISCORD_CHANNEL || DISCORD_CHANNEL === 'DISCORD_CHANNEL_ID' || DISCORD_CHANNEL === ''){
+		throw Error('Discord channel ID not provided');
 	}
 }catch(e){
 	logger.error(e.message);
 	process.exit(1);
 }
 //login to Discord
-client.login(CONFIG.app.DISCORD_BOT_TOKEN);
+client.login(DISCORD_BOT_TOKEN);
 
 module.exports.client = client;
