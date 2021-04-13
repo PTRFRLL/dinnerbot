@@ -11,7 +11,11 @@ const {botMentioned} = require('./lib/events/mention');
 const {checkScore} = require('./lib/events/wins');
 const {ALLOWED_EXT} = require('./lib/constants');
 
-const prefix = process.env.COMMAND_PREFIX ?? "!";
+let prefix = process.env.COMMAND_PREFIX;
+if(!prefix){
+	prefix = "!";
+	process.env.COMMAND_PREFIX = prefix;
+}
 const DISCORD_CHANNEL = process.env.DISCORD_CHANNEL;
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 const PUBG_API_KEY = process.env.PUBG_API_KEY;
