@@ -1,8 +1,8 @@
 {
     "dev":{
         "COMMAND_PREFIX": "!",
-        "DISCORD_BOT_TOKEN": "DISCORD_BOT_TOKEN",
-		"DISCORD_CHANNEL": "DISCORD_CHANNEL_ID",
+        "BOT_TOKEN": "DISCORD_BOT_TOKEN",
+		"CHANNEL_ID": "DISCORD_CHANNEL_ID",
         "PUBG_API_KEY": "",
         "LOGMODE": "debug",
         "DATABASE_PATH": "./data/db.sqlite",

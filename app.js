@@ -16,8 +16,8 @@ if(!prefix){
 	prefix = "!";
 	process.env.COMMAND_PREFIX = prefix;
 }
-const DISCORD_CHANNEL = process.env.DISCORD_CHANNEL;
-const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
+const CHANNEL_ID = process.env.CHANNEL_ID;
+const BOT_TOKEN = process.env.BOT_TOKEN;
 const PUBG_API_KEY = process.env.PUBG_API_KEY;
 
 logger.log(`Starting dinnerbot (v${package.version})...`);
@@ -47,7 +47,7 @@ logger.log(`✅ ${commandFiles.length} commands added: (${[ ...client.commands.k
 client.on('ready', () => {
 	let serverID = client.guilds.cache.keys().next().value;
 	logger.log(`✅ Connected to ${client.guilds.cache.get(serverID).name}`);
-	logger.log(`✅ Listening on #${client.channels.cache.get(DISCORD_CHANNEL).name}`);
+	logger.log(`✅ Listening on #${client.channels.cache.get(CHANNEL_ID).name}`);
 	db.sequelize.sync().then(function() {
 		logger.log('✅ DB synced');
 		logger.log('✅ Ready');
@@ -76,14 +76,14 @@ client.on('reconnecting', () => {
 client.on('message', async (message) => {
 	try{
 		//if message isn't DM to bot or on proper channel (or from a bot), ignore it
-		if (message.author.bot || (message.channel.type !== 'dm' && message.channel.id !== DISCORD_CHANNEL)) return;
+		if (message.author.bot || (message.channel.type !== 'dm' && message.channel.id !== CHANNEL_ID)) return;
 
 		//check for screenshot
 		let attachment = message.attachments.first();
 		if (attachment){
 			//don't allow chicken dinner screenshots in DMs
 			if(message.channel.type === 'dm'){
-				return message.reply(`I can't award wins here, post in <#${DISCORD_CHANNEL}> instead 👍`);
+				return message.reply(`I can't award wins here, post in <#${CHANNEL_ID}> instead 👍`);
 			}
 			logger.log(`Attachment found from ${message.author.username}`);
 			logger.log(`Filename: ${attachment.name}`);
@@ -116,7 +116,7 @@ client.on('message', async (message) => {
 		if(command.requiresAuth)
 		{
 			if(message.channel.type === 'dm'){
-				return message.reply(`I can't check your server role in DMs, try again in <#${DISCORD_CHANNEL}> instead 👍`);
+				return message.reply(`I can't check your server role in DMs, try again in <#${CHANNEL_ID}> instead 👍`);
 			}
 			if(!isAuth(message)){
 				return notAuthResponse(message);
@@ -144,10 +144,10 @@ client.on('presenceUpdate', presenceUpdate);
 
 
 try{
-	if(!DISCORD_BOT_TOKEN || DISCORD_BOT_TOKEN === 'DISCORD_BOT_TOKEN' || DISCORD_BOT_TOKEN === ''){
+	if(!BOT_TOKEN || BOT_TOKEN === 'DISCORD_BOT_TOKEN' || BOT_TOKEN === ''){
 		throw Error('Discord bot token not provided');
 	}
-	if(!DISCORD_CHANNEL || DISCORD_CHANNEL === 'DISCORD_CHANNEL_ID' || DISCORD_CHANNEL === ''){
+	if(!CHANNEL_ID || CHANNEL_ID === 'DISCORD_CHANNEL_ID' || CHANNEL_ID === ''){
 		throw Error('Discord channel ID not provided');
 	}
 }catch(e){
@@ -155,6 +155,6 @@ try{
 	process.exit(1);
 }
 //login to Discord
-client.login(DISCORD_BOT_TOKEN);
+client.login(BOT_TOKEN);
 
 module.exports.client = client;
