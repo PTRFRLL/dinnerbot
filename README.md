@@ -66,7 +66,7 @@ ptrfrll/dinnerbot
 
 ### Run locally
 
-Edit the [config.js](./config.js) file with your discord bot token and the channel-id of the channel you want it to listen on.
+Edit the [config.json](./config/config.json) file with your discord bot token and the channel-id of the channel you want it to listen on.
 
 Start the bot with:
 
@@ -99,17 +99,18 @@ The bot can query the PUBG API for stats from the last win and lifetime stats. Y
 
 ## Configuration
 
-Edit the [config.js](./config.js) to change these settings.
+The following environment variables change be changed/set. If running locally, modify the [config.json](./config/config.json) file to change these settings.
 
-```js
-IMG_SCORE_THRESHOLD: 20000, //if the image score is below this number it's awared a win (20,000 is arbitrary based off my testing)
-LOGMODE: 'prod', //prod or debug
-AUTH_USERS: {
-    //users/roles specified here can award wins that scored too high
-    users: [''], //array of user ids
-    roles: [''] //array of role names
-},
-```
+| Name              | Description                                                                       | Required | Default |
+| ----------------- | --------------------------------------------------------------------------------- | -------- | ------- |
+| DISCORD_BOT_TOKEN | Discord Bot Token                                                                 | ✔        |         |
+| DISCORD_CHANNEL   | ID of Discord channel that bot monitors                                           | ✔        |         |
+| DATABASE_PATH     | Path to DB file                                                                   | ✔        |         |
+| COMMAND_PREFIX    | What character to prefix a bot command (e.g. !help)                               |          | !       |
+| LOGMODE           | Logging mode (prod or debug)                                                      |          | prod    |
+| AUTH_USERS        | Comma delimited list of Discord user Ids that can preform authorized commands     |          |         |
+| AUTH_ROLES        | Comma delimited list of Discord server roles that can preform authorized commands |          |         |
+| PUBG_API_KEY      | PUBG API key used for stat lookup                                                 |          |         |
 
 ## Built With
 
