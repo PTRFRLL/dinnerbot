@@ -5,7 +5,9 @@
 		"DISCORD_CHANNEL": "DISCORD_CHANNEL_ID",
         "PUBG_API_KEY": "",
         "LOGMODE": "debug",
-        "DATABASE_PATH": "./data/db.sqlite"
+        "DATABASE_PATH": "./data/db.sqlite",
+        "AUTH_USERS": "",
+        "AUTH_ROLES": ""
     },
     "test":{
         "LOGMODE": "prod",
