@@ -4,7 +4,7 @@
   "description": "Discord bot to track PUBG wins",
   "main": "app.js",
   "scripts": {
-    "test": "mocha tests/*.test.js",
+    "test": "cross-env NODE_ENV=test mocha tests/*.test.js",
     "start": "node app.js",
     "test-watch": "nodemon --exec \"npm test\"",
     "docker": "cross-env NODE_ENV=docker node app.js",

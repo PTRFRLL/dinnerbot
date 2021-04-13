@@ -20,6 +20,13 @@ const DISCORD_CHANNEL = process.env.DISCORD_CHANNEL;
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 const PUBG_API_KEY = process.env.PUBG_API_KEY;
 
+logger.log(`Starting dinnerbot (v${package.version})...`);
+logger.debug(`Running in ${process.env.NODE_ENV} environment`);
+logger.debug(`Command Prefix:    ${prefix}`);
+logger.debug(`PUBG_API KEY:      ${PUBG_API_KEY ? '✅ Set' : '❌ Not Found'}`);
+logger.debug(`AUTH USERS:        ${process.env.AUTH_USERS}`);
+logger.debug(`AUTH ROLES:        ${process.env.AUTH_ROLES}`);
+
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./lib/commands').filter(file => file.endsWith('.js'));
@@ -33,18 +40,17 @@ for(const file of commandFiles){
 	}
     client.commands.set(command.name, command);
 }
-logger.log(`Starting dinnerbot (v${package.version})...`);
-logger.debug(`Running in ${process.env.NODE_ENV} environment`);
+
 logger.log(`✅ ${commandFiles.length} commands added: (${[ ...client.commands.keys()]})`);
 
 //when we connect with Discord, sync with DB
 client.on('ready', () => {
 	let serverID = client.guilds.cache.keys().next().value;
-	logger.debug('Running in debug mode...');
 	logger.log(`✅ Connected to ${client.guilds.cache.get(serverID).name}`);
 	logger.log(`✅ Listening on #${client.channels.cache.get(DISCORD_CHANNEL).name}`);
 	db.sequelize.sync().then(function() {
 		logger.log('✅ DB synced');
+		logger.log('✅ Ready');
 		client.user.setActivity(`for chicken dinners 🐔 DM ${prefix}help for commands. (v${package.version})`, {type: 'WATCHING'});
 	}).catch((e) => {
 		logger.error('❌ Error connecting to DB');
