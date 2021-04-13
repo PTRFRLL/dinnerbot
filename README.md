@@ -110,16 +110,16 @@ $ npm run dev
 
 The following environment variables change be changed/set. If running locally, modify the [config.json](./config/config.json) file to change these settings.
 
-| Name              | Description                                                                       | Required | Default |
-| ----------------- | --------------------------------------------------------------------------------- | -------- | ------- |
-| DISCORD_BOT_TOKEN | Discord Bot Token                                                                 | ✔        |         |
-| DISCORD_CHANNEL   | ID of Discord channel that bot monitors                                           | ✔        |         |
-| DATABASE_PATH     | Path to DB file                                                                   | ✔        |         |
-| COMMAND_PREFIX    | What character to prefix a bot command (e.g. !help)                               |          | !       |
-| LOGMODE           | Logging mode (prod or debug)                                                      |          | prod    |
-| AUTH_USERS        | Comma delimited list of Discord user Ids that can preform authorized commands     |          |         |
-| AUTH_ROLES        | Comma delimited list of Discord server roles that can preform authorized commands |          |         |
-| PUBG_API_KEY      | PUBG API key used for stat lookup                                                 |          |         |
+| Name           | Description                                                                       | Required | Default |
+| -------------- | --------------------------------------------------------------------------------- | -------- | ------- |
+| BOT_TOKEN      | Discord Bot Token                                                                 | ✔        |         |
+| CHANNEL_ID     | ID of Discord channel that bot monitors                                           | ✔        |         |
+| DATABASE_PATH  | Path to DB file                                                                   | ✔        |         |
+| COMMAND_PREFIX | What character to prefix a bot command (e.g. !help)                               |          | !       |
+| LOGMODE        | Logging mode (prod or debug)                                                      |          | prod    |
+| AUTH_USERS     | Comma delimited list of Discord user Ids that can preform authorized commands     |          |         |
+| AUTH_ROLES     | Comma delimited list of Discord server roles that can preform authorized commands |          |         |
+| PUBG_API_KEY   | PUBG API key used for stat lookup                                                 |          |         |
 
 ## Built With
 
