@@ -1,13 +1,12 @@
 {
   "name": "dinner-bot",
-  "version": "4.2.1",
+  "version": "4.3.0",
   "description": "Discord bot to track PUBG wins",
   "main": "app.js",
   "scripts": {
-    "test": "mocha tests/*.test.js",
+    "test": "cross-env NODE_ENV=test mocha tests/*.test.js",
     "start": "node app.js",
     "test-watch": "nodemon --exec \"npm test\"",
-    "docker": "cross-env NODE_ENV=docker node app.js",
     "dev": "cross-env NODE_ENV=dev nodemon app.js",
     "build": "docker build . -t ptrfrll/dinnerbot"
   },
