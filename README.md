@@ -1,4 +1,6 @@
-# DinnerBot - PUBG Win Tracker
+# Dinnerbot - PUBG Win Tracker
+
+> Celebrate and record your PUBG chicken dinners!
 
 [![Publish Docker image](https://github.com/PTRFRLL/dinnerbot/workflows/Publish%20Docker%20image/badge.svg)](https://github.com/PTRFRLL/dinnerbot/actions/workflows/main.yml)
 [![Run tests](https://github.com/PTRFRLL/dinnerbot/actions/workflows/node.yml/badge.svg)](https://github.com/PTRFRLL/dinnerbot/actions/workflows/node.yml)
@@ -7,7 +9,36 @@
 
 ![Dinner Bot](examples/winner.gif)
 
-DinnerBot is a Discord bot that listens on a specfic channel for PUBG win screenshots and responds with **WINNER WINNER CHICKEN DINNER** and some emoji 🐔 🏆 🍽 if the image is a winning screenshot. Useful for `chicken-dinner-receipt` channels where only winning screenshots are posted. Keeps track of win count for each tagged users.
+Dinnerbot is a PUBG Discord companion bot that tracks wins, lists PUBG stats and celebrates your chicken dinners 🥳
+
+- Monitors a channel for winning screenshots and responds with **WINNER WINNER CHICKEN DINNER** and some emoji 🐔 🏆 🍽
+- Watches Discord presence to proactively alert user of win and post winning match stats
+- Tracks wins for each user
+- Queries PUBG API for stats
+
+## Commands
+
+### !wins
+
+Use `!wins` command to see current win count, you can tag users to show their count as well.
+
+Ex. `!wins @DericLee @Tarvis` produces:
+
+![Win Count](examples/wins.png)
+
+### !help
+
+Use `!help` or mention the bot to get a list of available commands
+
+![Help](examples/help.png)
+
+## PUBG Stats
+
+The bot can query the PUBG API for stats from the last win and lifetime stats. You'll need to get a [PUBG API Key](https://developer.pubg.com/) and add it via the `PUBG_API_KEY` environment variable/config file
+
+![stats](examples/stats.png)
+
+## Winning Screenshots
 
 ### Image Comparison
 
@@ -49,7 +80,7 @@ The simplest way to run dinnerbot. You need to map the `/config` and `/data` vol
 
 ```
 docker pull ptrfrll/dinnerbot:latest
-docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -e PUBG_API_KEY="PUBG_API_KEY" -v path_on_local_machine:/data:rw -v path_on_local_machine:/config:rw ptrfrll/dinnerbot
+docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -e PUBG_API_KEY="PUBG_API_KEY" -e DATABASE_PATH="/data/db.sqlite" -v path_on_local_machine:/data:rw -v path_on_local_machine:/config:rw ptrfrll/dinnerbot
 ```
 
 Example:
@@ -59,6 +90,7 @@ docker run -d --name dinnerbot \
 -e BOT_TOKEN="FAKETOKEN1234" \
 -e CHANNEL_ID="1234567890" \
 -e PUBG_API_KEY="abc123" \
+-e DATABASE_PATH="/data/db.sqlite" \
 -v C:\Users\ptrfrll\dinnerbot\data:/data:rw \
 -v C:\Users\ptrfrll\dinnerbot\config:/config:rw \
 ptrfrll/dinnerbot
@@ -66,7 +98,7 @@ ptrfrll/dinnerbot
 
 ### Run locally
 
-Edit the [config.json](./config/config.json) file with your discord bot token and the channel-id of the channel you want it to listen on.
+Edit the [config.json](./config/config.json) file with your discord bot token and the channel-id of the channel you want the bot to monitor
 
 Start the bot with:
 
@@ -74,28 +106,6 @@ Start the bot with:
 $ npm install
 $ npm run dev
 ```
-
-## Commands
-
-### !wins
-
-Use `!wins` command to see current win count, you can tag users to show their count as well.
-
-Ex. `!wins @DericLee @Tarvis` produces:
-
-![Win Count](examples/wins.png)
-
-### !help
-
-Use `!help` or mention the bot to get a list of available commands
-
-![Help](examples/help.png)
-
-## PUBG Stats
-
-The bot can query the PUBG API for stats from the last win and lifetime stats. You'll need to get a [PUBG API Key](https://developer.pubg.com/) and add it via the `PUBG_API_KEY` environment variable/config file
-
-![stats](examples/stats.png)
 
 ## Configuration
 
