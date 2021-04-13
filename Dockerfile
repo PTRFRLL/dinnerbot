@@ -11,4 +11,6 @@ COPY . /usr/src/app
 
 VOLUME ["/config", "/data"]
 
-CMD ["/bin/bash", "deploy/init.sh"]
+ENV NODE_ENV DOCKER
+
+CMD ["node", "app.js"]
