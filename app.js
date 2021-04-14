@@ -63,7 +63,7 @@ client.on('ready', () => {
 	db.sequelize.sync().then(function() {
 		logger.log('✅ DB synced');
 		logger.log('✅ Ready');
-		client.user.setActivity(`for chicken dinners 🐔 DM ${prefix}help for commands. (v${package.version})`, {type: 'WATCHING'});
+		client.user.setActivity(`for chicken dinners 🐔 DM ${prefix}help for commands. (v${pkg.version})`, {type: 'WATCHING'});
 	}).catch((e) => {
 		logger.error('❌ Error connecting to DB');
 		logger.error(e);
