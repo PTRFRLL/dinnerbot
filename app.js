@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const db = require('./lib/db.js');
 const logger = require('./lib/log.js');
-const package = require('./package.json');
+const pkg = require('./package.json');
 const {isAuth, notAuthResponse} = require('./lib/discord');
 
 const {presenceUpdate} = require('./lib/events/presence');
@@ -20,7 +20,7 @@ const CHANNEL_ID = process.env.CHANNEL_ID;
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const PUBG_API_KEY = process.env.PUBG_API_KEY;
 
-logger.log(`Starting dinnerbot (v${package.version})...`);
+logger.log(`Starting dinnerbot (v${pkg.version})...`);
 logger.debug(`Running in ${process.env.NODE_ENV} environment`);
 logger.debug(`Command Prefix:    ${prefix}`);
 logger.debug(`PUBG_API KEY:      ${PUBG_API_KEY ? '✅ Set' : '❌ Not Found'}`);
@@ -108,7 +108,7 @@ client.on('message', async (message) => {
 				logger.debug(`Args: ${args}`);
 			}
 			return;
-		};
+		}
 
 		logger.log(`${command.name} command requested by ${message.author.username}`);
 
