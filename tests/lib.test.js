@@ -101,7 +101,6 @@ describe('Complete Logic', () => {
 		await deleteFile(imageProps.resizedPath);
 		fs.stat(imageProps.resizedPath, (err, stat) => {
 			expect(err.code).toBe('ENOENT');
-			return;
 		});
 	});
 });
