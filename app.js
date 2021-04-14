@@ -20,6 +20,18 @@ const CHANNEL_ID = process.env.CHANNEL_ID;
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const PUBG_API_KEY = process.env.PUBG_API_KEY;
 
+try{
+	if(!BOT_TOKEN || BOT_TOKEN === 'DISCORD_BOT_TOKEN' || BOT_TOKEN === ''){
+		throw Error('Discord bot token not provided');
+	}
+	if(!CHANNEL_ID || CHANNEL_ID === 'DISCORD_CHANNEL_ID' || CHANNEL_ID === ''){
+		throw Error('Discord channel ID not provided');
+	}
+}catch(e){
+	logger.error(e.message);
+	process.exit(1);
+}
+
 logger.log(`Starting dinnerbot (v${pkg.version})...`);
 logger.debug(`Running in ${process.env.NODE_ENV} environment`);
 logger.debug(`Command Prefix:    ${prefix}`);
@@ -141,19 +153,6 @@ client.on('message', async (message) => {
 
 client.on('presenceUpdate', presenceUpdate);
 
-
-
-try{
-	if(!BOT_TOKEN || BOT_TOKEN === 'DISCORD_BOT_TOKEN' || BOT_TOKEN === ''){
-		throw Error('Discord bot token not provided');
-	}
-	if(!CHANNEL_ID || CHANNEL_ID === 'DISCORD_CHANNEL_ID' || CHANNEL_ID === ''){
-		throw Error('Discord channel ID not provided');
-	}
-}catch(e){
-	logger.error(e.message);
-	process.exit(1);
-}
 //login to Discord
 client.login(BOT_TOKEN);
 
