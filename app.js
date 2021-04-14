@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const db = require('./lib/db.js');
 const logger = require('./lib/log.js');
-const package = require('./package.json');
+const pkg = require('./package.json');
 const {isAuth, notAuthResponse} = require('./lib/discord');
 
 const {presenceUpdate} = require('./lib/events/presence');
@@ -20,7 +20,19 @@ const CHANNEL_ID = process.env.CHANNEL_ID;
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const PUBG_API_KEY = process.env.PUBG_API_KEY;
 
-logger.log(`Starting dinnerbot (v${package.version})...`);
+try{
+	if(!BOT_TOKEN || BOT_TOKEN === 'DISCORD_BOT_TOKEN' || BOT_TOKEN === ''){
+		throw Error('Discord bot token not provided');
+	}
+	if(!CHANNEL_ID || CHANNEL_ID === 'DISCORD_CHANNEL_ID' || CHANNEL_ID === ''){
+		throw Error('Discord channel ID not provided');
+	}
+}catch(e){
+	logger.error(e.message);
+	process.exit(1);
+}
+
+logger.log(`Starting dinnerbot (v${pkg.version})...`);
 logger.debug(`Running in ${process.env.NODE_ENV} environment`);
 logger.debug(`Command Prefix:    ${prefix}`);
 logger.debug(`PUBG_API KEY:      ${PUBG_API_KEY ? '✅ Set' : '❌ Not Found'}`);
@@ -51,7 +63,7 @@ client.on('ready', () => {
 	db.sequelize.sync().then(function() {
 		logger.log('✅ DB synced');
 		logger.log('✅ Ready');
-		client.user.setActivity(`for chicken dinners 🐔 DM ${prefix}help for commands. (v${package.version})`, {type: 'WATCHING'});
+		client.user.setActivity(`for chicken dinners 🐔 DM ${prefix}help for commands. (v${pkg.version})`, {type: 'WATCHING'});
 	}).catch((e) => {
 		logger.error('❌ Error connecting to DB');
 		logger.error(e);
@@ -108,7 +120,7 @@ client.on('message', async (message) => {
 				logger.debug(`Args: ${args}`);
 			}
 			return;
-		};
+		}
 
 		logger.log(`${command.name} command requested by ${message.author.username}`);
 
@@ -141,19 +153,6 @@ client.on('message', async (message) => {
 
 client.on('presenceUpdate', presenceUpdate);
 
-
-
-try{
-	if(!BOT_TOKEN || BOT_TOKEN === 'DISCORD_BOT_TOKEN' || BOT_TOKEN === ''){
-		throw Error('Discord bot token not provided');
-	}
-	if(!CHANNEL_ID || CHANNEL_ID === 'DISCORD_CHANNEL_ID' || CHANNEL_ID === ''){
-		throw Error('Discord channel ID not provided');
-	}
-}catch(e){
-	logger.error(e.message);
-	process.exit(1);
-}
 //login to Discord
 client.login(BOT_TOKEN);
 
