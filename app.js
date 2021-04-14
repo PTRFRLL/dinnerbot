@@ -8,7 +8,7 @@ const {isAuth, notAuthResponse} = require('./lib/discord');
 
 const {presenceUpdate} = require('./lib/events/presence');
 const {botMentioned} = require('./lib/events/mention');
-const {checkScore} = require('./lib/events/wins');
+const {determineWin} = require('./lib/events/wins');
 const {ALLOWED_EXT} = require('./lib/constants');
 
 let prefix = process.env.COMMAND_PREFIX;
@@ -103,7 +103,8 @@ client.on('message', async (message) => {
 				logger.log('Extension not allowed, skipping...');
 				return;
 			}
-			return await checkScore(attachment.proxyURL, message);
+			await determineWin(attachment.proxyURL, message);
+			return;
 		}
 
 		const args = message.content.slice(prefix.length).trim().split(/ +/);
