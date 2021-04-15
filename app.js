@@ -36,8 +36,12 @@ logger.log(`Starting dinnerbot (v${pkg.version})...`);
 logger.debug(`Running in ${process.env.NODE_ENV} environment`);
 logger.debug(`Command Prefix:    ${prefix}`);
 logger.debug(`PUBG_API KEY:      ${PUBG_API_KEY ? '✅ Set' : '❌ Not Found'}`);
-logger.debug(`AUTH USERS:        ${process.env.AUTH_USERS}`);
-logger.debug(`AUTH ROLES:        ${process.env.AUTH_ROLES}`);
+if(process.env.AUTH_USERS){
+	logger.debug(`AUTH USERS:        ${process.env.AUTH_USERS}`);
+}
+if(process.env.AUTH_ROLES){
+	logger.debug(`AUTH ROLES:        ${process.env.AUTH_ROLES}`);
+}
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
