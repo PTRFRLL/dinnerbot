@@ -1,4 +1,4 @@
 node_modules/
 *.sqlite
 *.traineddata
-*.env
+.env
