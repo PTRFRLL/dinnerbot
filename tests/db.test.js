@@ -1,4 +1,4 @@
-require('../config/config')
+require('dotenv').config()
 const expect = require('expect');
 const path = require('path');
 const fs = require('fs');
