@@ -1,4 +1,4 @@
-require('./config/config');
+require('dotenv').config()
 const Discord = require('discord.js');
 const fs = require('fs');
 const db = require('./lib/db.js');
@@ -22,10 +22,10 @@ const PUBG_API_KEY = process.env.PUBG_API_KEY;
 
 try{
 	if(!BOT_TOKEN || BOT_TOKEN === 'DISCORD_BOT_TOKEN' || BOT_TOKEN === ''){
-		throw Error('Discord bot token not provided');
+		throw Error('❌ Discord bot token not provided');
 	}
 	if(!CHANNEL_ID || CHANNEL_ID === 'DISCORD_CHANNEL_ID' || CHANNEL_ID === ''){
-		throw Error('Discord channel ID not provided');
+		throw Error('❌ Discord channel ID not provided');
 	}
 }catch(e){
 	logger.error(e.message);
@@ -35,9 +35,13 @@ try{
 logger.log(`Starting dinnerbot (v${pkg.version})...`);
 logger.debug(`Running in ${process.env.NODE_ENV} environment`);
 logger.debug(`Command Prefix:    ${prefix}`);
-logger.debug(`PUBG_API KEY:      ${PUBG_API_KEY ? '✅ Set' : '❌ Not Found'}`);
-logger.debug(`AUTH USERS:        ${process.env.AUTH_USERS}`);
-logger.debug(`AUTH ROLES:        ${process.env.AUTH_ROLES}`);
+logger.debug(`PUBG_API KEY:      ${PUBG_API_KEY ? 'Set' : 'Not Found'}`);
+if(process.env.AUTH_USERS){
+	logger.debug(`AUTH USERS:        ${process.env.AUTH_USERS}`);
+}
+if(process.env.AUTH_ROLES){
+	logger.debug(`AUTH ROLES:        ${process.env.AUTH_ROLES}`);
+}
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -56,19 +60,23 @@ for(const file of commandFiles){
 logger.log(`✅ ${commandFiles.length} commands added: (${[ ...client.commands.keys()]})`);
 
 //when we connect with Discord, sync with DB
-client.on('ready', () => {
-	let serverID = client.guilds.cache.keys().next().value;
-	logger.log(`✅ Connected to ${client.guilds.cache.get(serverID).name}`);
-	logger.log(`✅ Listening on #${client.channels.cache.get(CHANNEL_ID).name}`);
-	db.sequelize.sync().then(function() {
+client.on('ready', async() => {
+	try{
+		const serverID = client.guilds.cache.keys().next().value;
+		const server = client.guilds.cache.get(serverID);
+		logger.log(`✅ Connected to ${server.name}`);
+		if(!client.channels.cache.has(CHANNEL_ID)){
+			throw new Error(`❌ Discord channel ID ${CHANNEL_ID} not found on server ${server.name}`);
+		}
+		logger.log(`✅ Listening on #${client.channels.cache.get(CHANNEL_ID).name} (${CHANNEL_ID})`);
+		await db.sequelize.sync();
 		logger.log('✅ DB synced');
 		logger.log('✅ Ready');
 		client.user.setActivity(`for chicken dinners 🐔 DM ${prefix}help for commands. (v${pkg.version})`, {type: 'WATCHING'});
-	}).catch((e) => {
-		logger.error('❌ Error connecting to DB');
-		logger.error(e);
+	}catch(err){
+		logger.error(err.message);
 		process.exit(1);
-	});
+	}
 });
 
 //if we cannot connect to Discord, quit app

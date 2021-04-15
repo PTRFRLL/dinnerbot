@@ -34,7 +34,7 @@ Use `!help` or mention the bot to get a list of available commands
 
 ## PUBG Stats
 
-The bot can query the PUBG API for stats from the last win and lifetime stats. You'll need to get a [PUBG API Key](https://developer.pubg.com/) and add it via the `PUBG_API_KEY` environment variable/config file
+The bot can query the PUBG API for stats from the last win and lifetime stats. You'll need to get a [PUBG API Key](https://developer.pubg.com/) and add it via the `PUBG_API_KEY` [environment variable](#Environment-Variables)
 
 ![stats](examples/stats.png)
 
@@ -46,11 +46,21 @@ Winning screenshots are determined by comparing the uploaded screenshot with a k
 
 If the uploaded image is not within the specified threshold, the image will be OCRed and the bot looks for the text **"WINNER WINNER CHICKEN DINNER"**
 
+**Why not OCR first?**
+
+[Take a look at this image](./tests/fail.png)
+
 ### Image Hash
 
 When a winning screenshot is added, dinnerbot will compute the SHA1 hash of the uploaded image and store it in the database. This is used to avoid someone uploading duplicate images.
 
 ![Hash](examples/dupe.png)
+
+## Presence Detection
+
+dinnerbot can monitor your [Discord Presence](https://discord.com/developers/docs/rich-presence/how-to#so-what-is-it) and detect if you've won a match. If so, it will send a message to your desired channel, along with [stats from the winning match](#PUBG-Stats)
+
+![Presence](examples/presence.png)
 
 ## Getting Started
 
@@ -64,7 +74,7 @@ Under the Bot section, click Add Bot and copy your bot's Token.
 
 If you want dinnerbot to alert when it detects a win via Discord presence, be sure to enable Presence Intent under the Privileged Gateway Intents on the Bot section
 
-![presence](examples/presence.png)
+![permissions](examples/perm.png)
 
 Add the bot to your server using [bot authorization flow](https://discordapp.com/developers/docs/topics/oauth2#bots):
 
@@ -76,7 +86,7 @@ https://discordapp.com/api/oauth2/authorize?client_id=CLIENT_ID&scope=bot&permis
 
 ### Docker
 
-The simplest way to run dinnerbot. You need to map the `/config` and `/data` volumes in order for it to run
+The simplest way to run dinnerbot. You need to map the `/data` volume in order for it to run
 
 ```
 docker pull ptrfrll/dinnerbot:latest
@@ -97,7 +107,7 @@ ptrfrll/dinnerbot
 
 ### Run locally
 
-Edit the [config.json](./config/config.json) file with your discord bot token and the channel-id of the channel you want the bot to monitor
+Rename the `example.env` file to `.env` in the root of the project and update the appropriate [environment variables](#Environment-Variables)
 
 Start the bot with:
 
@@ -106,9 +116,7 @@ $ npm install
 $ npm run dev
 ```
 
-## Configuration
-
-The following environment variables change be changed/set. If running locally, modify the [config.json](./config/config.json) file to change these settings.
+## Environment Variables
 
 | Name           | Description                                                                       | Required | Default |
 | -------------- | --------------------------------------------------------------------------------- | -------- | ------- |
@@ -127,3 +135,5 @@ The following environment variables change be changed/set. If running locally, m
 - [Moment.js](https://momentjs.com/) - Javascript Date Library
 - [Sequelize](http://docs.sequelizejs.com/) - ORM
 - [Axios](https://github.com/axios/axios) - Promise based HTTP client
+- [Tesseract.js](https://github.com/naptha/tesseract.js) - OCR Library
+- [JIMP](https://github.com/oliver-moran/jimp) - Image processing
