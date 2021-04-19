@@ -32,7 +32,7 @@ try{
 	process.exit(1);
 }
 
-logger.log(`Starting dinnerbot (v${pkg.version})...`);
+logger.info(`Starting dinnerbot (v${pkg.version})...`);
 logger.debug(`Running in ${process.env.NODE_ENV} environment`);
 logger.debug(`Command Prefix:    ${prefix}`);
 logger.debug(`PUBG_API KEY:      ${PUBG_API_KEY ? 'Set' : 'Not Found'}`);
@@ -51,27 +51,27 @@ for(const file of commandFiles){
     const command = require(`./lib/commands/${file}`);
 	if(command.requiresAPIKey && (!PUBG_API_KEY || PUBG_API_KEY === ''))
 	{
-		logger.log(`No PUBG API key provided, skipping command: ${command.name}`);
+		logger.info(`No PUBG API key provided, skipping command: ${command.name}`);
 		continue;
 	}
     client.commands.set(command.name, command);
 }
 
-logger.log(`✅ ${commandFiles.length} commands added: (${[ ...client.commands.keys()]})`);
+logger.info(`✅ ${commandFiles.length} commands added: (${[ ...client.commands.keys()]})`);
 
 //when we connect with Discord, sync with DB
 client.on('ready', async() => {
 	try{
 		const serverID = client.guilds.cache.keys().next().value;
 		const server = client.guilds.cache.get(serverID);
-		logger.log(`✅ Connected to ${server.name}`);
+		logger.info(`✅ Connected to ${server.name}`);
 		if(!client.channels.cache.has(CHANNEL_ID)){
 			throw new Error(`❌ Discord channel ID ${CHANNEL_ID} not found on server ${server.name}`);
 		}
-		logger.log(`✅ Listening on #${client.channels.cache.get(CHANNEL_ID).name} (${CHANNEL_ID})`);
+		logger.info(`✅ Listening on #${client.channels.cache.get(CHANNEL_ID).name} (${CHANNEL_ID})`);
 		await db.sequelize.sync();
-		logger.log('✅ DB synced');
-		logger.log('✅ Ready');
+		logger.info('✅ DB synced');
+		logger.info('✅ Ready');
 		client.user.setActivity(`for chicken dinners 🐔 DM ${prefix}help for commands. (v${pkg.version})`, {type: 'WATCHING'});
 	}catch(err){
 		logger.error(err.message);
@@ -86,11 +86,11 @@ client.on('error', () => {
 });
 
 client.on('disconnect', () => {
-	logger.log(`Disconnecting from Discord...`);
+	logger.info(`Disconnecting from Discord...`);
 });
 
 client.on('reconnecting', () => {
-	logger.log(`Attempting to reconnect...`);
+	logger.info(`Attempting to reconnect...`);
 });
 
 client.on('message', async (message) => {
@@ -105,10 +105,10 @@ client.on('message', async (message) => {
 			if(message.channel.type === 'dm'){
 				return message.reply(`I can't award wins here, post in <#${CHANNEL_ID}> instead 👍`);
 			}
-			logger.log(`Attachment found from ${message.author.username}`);
-			logger.log(`Filename: ${attachment.name}`);
+			logger.info(`Attachment found from ${message.author.username}`);
+			logger.info(`Filename: ${attachment.name}`);
 			if(!ALLOWED_EXT.includes(attachment.name.split('.').pop().toLowerCase())){
-				logger.log('Extension not allowed, skipping...');
+				logger.info('Extension not allowed, skipping...');
 				return;
 			}
 			await determineWin(attachment.proxyURL, message);
