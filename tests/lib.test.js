@@ -2,9 +2,10 @@ const expect = require('expect');
 const path = require('path');
 const fs = require('fs');
 const compare = require('../lib/compare.js');
-const {normalizeImage, downloadFile, deleteFile, hashFile, getImage} = require('../lib/utils.js');
+const {normalizeImage, downloadFile, deleteFile, hashFile, getImage, hashText} = require('../lib/utils.js');
 const imageSize = require('image-size');
 const {ocr} = require('../lib/vision');
+const {winningPresence} = require('./fixtures/presence')
 
 describe('Utils', () => {
 	describe('Download', () => {
@@ -37,8 +38,8 @@ describe('Utils', () => {
 			});
 		});
 	});
-	describe('Hash', () => {
-		it('should create a hash', (done) => {
+	describe('Hash File', () => {
+		it('should create a hash of file', (done) => {
 			let filePath = path.join(__dirname, 'unknown720.png');
 			hashFile(filePath).then((hash) => {
 				expect(typeof hash).toBe('string');
@@ -48,6 +49,17 @@ describe('Utils', () => {
 				console.error(err);
 				done();
 			})
+		});
+	});
+	describe('Hash Text', () => {
+		it('should create a hash of text', () => {
+			const PUBG = winningPresence.activities.shift();
+			const details = PUBG.details;
+			const state = PUBG.state;
+			const partySize = PUBG.party.size.join();
+			let hash = hashText(details + state + partySize);
+			expect(typeof hash).toBe('string');
+			expect(hash).toEqual('47d590c8f426dce5371729c881be59934272fdd8');
 		});
 	});
 	describe('Delete', () => {
