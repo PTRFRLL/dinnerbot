@@ -1,6 +1,6 @@
 {
   "name": "dinner-bot",
-  "version": "4.6.0",
+  "version": "4.7.0",
   "description": "Discord bot to track PUBG wins",
   "main": "app.js",
   "scripts": {
