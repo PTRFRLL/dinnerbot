@@ -123,7 +123,7 @@ $ npm run dev
 | CHANNEL_ID     | ID of Discord channel that bot monitors                                           | ✔        |         |
 | DATA_PATH      | Path to store DB and log files                                                    | ✔        | `/data` |
 | COMMAND_PREFIX | What character to prefix a bot command (e.g. !help)                               |          | !       |
-| LOGMODE        | Logging mode (prod or debug)                                                      |          | prod    |
+| LOGMODE        | Logging mode (info or debug)                                                      |          | info    |
 | AUTH_USERS     | Comma delimited list of Discord user Ids that can preform authorized commands     |          |         |
 | AUTH_ROLES     | Comma delimited list of Discord server roles that can preform authorized commands |          |         |
 | PUBG_API_KEY   | PUBG API key used for stat lookup                                                 |          |         |
