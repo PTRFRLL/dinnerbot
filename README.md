@@ -90,7 +90,7 @@ The simplest way to run dinnerbot. You need to map the `/data` volume in order f
 
 ```
 docker pull ptrfrll/dinnerbot:latest
-docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -e PUBG_API_KEY="PUBG_API_KEY" -e DATABASE_PATH="/data/db.sqlite" -v path_on_local_machine:/data:rw ptrfrll/dinnerbot
+docker run -d -e BOT_TOKEN="BOT_TOKEN" -e CHANNEL_ID="CHANNEL_ID" -e PUBG_API_KEY="PUBG_API_KEY" -v path_on_local_machine:/data:rw ptrfrll/dinnerbot
 ```
 
 Example:
@@ -100,7 +100,6 @@ docker run -d --name dinnerbot \
 -e BOT_TOKEN="FAKETOKEN1234" \
 -e CHANNEL_ID="1234567890" \
 -e PUBG_API_KEY="abc123" \
--e DATABASE_PATH="/data/db.sqlite" \
 -v C:\Users\ptrfrll\dinnerbot\data:/data:rw \
 ptrfrll/dinnerbot
 ```
@@ -122,7 +121,7 @@ $ npm run dev
 | -------------- | --------------------------------------------------------------------------------- | -------- | ------- |
 | BOT_TOKEN      | Discord Bot Token                                                                 | ✔        |         |
 | CHANNEL_ID     | ID of Discord channel that bot monitors                                           | ✔        |         |
-| DATABASE_PATH  | Path to DB file                                                                   | ✔        |         |
+| DATA_PATH      | Path to store DB and log files                                                    | ✔        | `/data` |
 | COMMAND_PREFIX | What character to prefix a bot command (e.g. !help)                               |          | !       |
 | LOGMODE        | Logging mode (prod or debug)                                                      |          | prod    |
 | AUTH_USERS     | Comma delimited list of Discord user Ids that can preform authorized commands     |          |         |
