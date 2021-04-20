@@ -2,7 +2,7 @@ require('dotenv').config()
 const Discord = require('discord.js');
 const fs = require('fs');
 const db = require('./lib/db.js');
-const logger = require('./lib/log.js');
+const logger = require('./lib/log.js')('app');
 const pkg = require('./package.json');
 const {isAuth, notAuthResponse} = require('./lib/discord');
 
