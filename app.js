@@ -131,7 +131,7 @@ client.on('message', async (message) => {
 			return;
 		}
 
-		logger.log(`${command.name} command requested by ${message.author.username}`);
+		logger.info(`${command.name} command requested by ${message.author.username}`);
 
 		//check if user is authorized to run command
 		if(command.requiresAuth)
