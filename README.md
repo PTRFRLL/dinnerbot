@@ -131,7 +131,6 @@ $ npm run dev
 ## Built With
 
 - [Discord.js](https://discord.js.org/#/) - Javascript library for Discord API
-- [Moment.js](https://momentjs.com/) - Javascript Date Library
 - [Sequelize](http://docs.sequelizejs.com/) - ORM
 - [Axios](https://github.com/axios/axios) - Promise based HTTP client
 - [Tesseract.js](https://github.com/naptha/tesseract.js) - OCR Library
