@@ -27,7 +27,7 @@
     "mime-types": "^2.1.29",
     "pixelmatch": "^5.2.1",
     "pngjs": "^6.0.0",
-    "sequelize": "^6.6.2",
+    "sequelize": "^6.28.2",
     "sqlite3": "^5.0.2",
     "tesseract.js": "^2.1.4",
     "winston": "^3.3.3"
