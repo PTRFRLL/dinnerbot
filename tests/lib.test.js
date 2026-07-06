@@ -10,13 +10,13 @@ const {winningPresence} = require('./fixtures/presence')
 describe('Utils', () => {
 	describe('Download', () => {
 		it('should download a file', (done) => {
-			downloadFile('https://peterfiorella.com/img/DinnerBot/dinner.png', 'test').then((filepath) => {
+			downloadFile('https://raw.githubusercontent.com/PTRFRLL/dinnerbot/master/tests/unknown720.png', 'test').then((filepath) => {
 				expect(fs.existsSync(filepath)).toBe(true);
 				done();
 			});
 		});
 		it('should NOT download a not allowed extension', (done) => {
-			downloadFile('https://peterfiorella.com').then((filepath) => {
+			downloadFile('https://example.com').then((filepath) => {
 				throw new Error('File downloaded');
 			}).catch((e) => {
 				expect(e).toEqual('Invalid extension, skipping download...')
@@ -26,7 +26,7 @@ describe('Utils', () => {
 	});
 	describe('normalizeImage', () => {
 		it('should normalize the image', (done) => {
-			downloadFile('https://peterfiorella.com/img/DinnerBot/dinner.png', 'testTwo').then((filepath) => {
+			downloadFile('https://raw.githubusercontent.com/PTRFRLL/dinnerbot/master/tests/unknown720.png', 'testTwo').then((filepath) => {
 				expect(fs.existsSync(filepath)).toBe(true);
 				normalizeImage(filepath).then(resized => {
 					expect(fs.existsSync(resized)).toBe(true);
