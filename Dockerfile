@@ -1,11 +1,11 @@
-FROM node:14
+FROM node:22
 
 # Create app directory
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install --prod
+RUN npm ci --omit=dev
 
 COPY . /usr/src/app
 
