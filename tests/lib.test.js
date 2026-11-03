@@ -1,6 +1,7 @@
 const expect = require('expect');
 const path = require('path');
 const fs = require('fs');
+const http = require('http');
 const compare = require('../lib/compare.js');
 const {normalizeImage, downloadFile, deleteFile, hashFile, getImage, hashText} = require('../lib/utils.js');
 const imageSize = require('image-size');
@@ -8,15 +9,35 @@ const {ocr} = require('../lib/vision');
 const {winningPresence} = require('./fixtures/presence')
 
 describe('Utils', () => {
+	//serve fixtures locally so download tests don't depend on an external site
+	let server, baseUrl;
+	before((done) => {
+		server = http.createServer((req, res) => {
+			if(req.url === '/dinner.png'){
+				res.writeHead(200, {'Content-Type': 'image/png'});
+				fs.createReadStream(path.join(__dirname, '..', 'examples', 'main.png')).pipe(res);
+			}else{
+				res.writeHead(200, {'Content-Type': 'text/html'});
+				res.end('<html></html>');
+			}
+		}).listen(0, () => {
+			baseUrl = `http://localhost:${server.address().port}`;
+			done();
+		});
+	});
+	after((done) => {
+		server.close(done);
+	});
+
 	describe('Download', () => {
 		it('should download a file', (done) => {
-			downloadFile('https://peterfiorella.com/img/DinnerBot/dinner.png', 'test').then((filepath) => {
+			downloadFile(`${baseUrl}/dinner.png`, 'test').then((filepath) => {
 				expect(fs.existsSync(filepath)).toBe(true);
 				done();
-			});
+			}).catch(done);
 		});
 		it('should NOT download a not allowed extension', (done) => {
-			downloadFile('https://peterfiorella.com').then((filepath) => {
+			downloadFile(baseUrl).then((filepath) => {
 				throw new Error('File downloaded');
 			}).catch((e) => {
 				expect(e).toEqual('Invalid extension, skipping download...')
@@ -26,16 +47,16 @@ describe('Utils', () => {
 	});
 	describe('normalizeImage', () => {
 		it('should normalize the image', (done) => {
-			downloadFile('https://peterfiorella.com/img/DinnerBot/dinner.png', 'testTwo').then((filepath) => {
+			downloadFile(`${baseUrl}/dinner.png`, 'testTwo').then((filepath) => {
 				expect(fs.existsSync(filepath)).toBe(true);
-				normalizeImage(filepath).then(resized => {
+				return normalizeImage(filepath).then(resized => {
 					expect(fs.existsSync(resized)).toBe(true);
 					let dimensions = imageSize(resized);
 					expect(dimensions.height).toBe(720);
 					expect(dimensions.width).toBe(1280);
 					done();
 				});
-			});
+			}).catch(done);
 		});
 	});
 	describe('Hash File', () => {
