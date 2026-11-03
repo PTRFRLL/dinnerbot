@@ -16,3 +16,4 @@ jobs:
       - run: npm test
         env:
           NODE_ENV: test
+          DATA_PATH: ${{ runner.temp }}
