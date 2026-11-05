@@ -1,0 +1,28 @@
+name: Check Version Bump
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify package.json version changed
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git fetch origin "$BASE_REF" --depth=1
+          base=$(git show "origin/$BASE_REF:package.json" | jq -r .version)
+          head=$(jq -r .version package.json)
+          echo "Base version: $base"
+          echo "PR version:   $head"
+          if [ "$base" = "$head" ]; then
+            echo "::error::package.json version must be bumped (still $base)"
+            exit 1
+          fi
